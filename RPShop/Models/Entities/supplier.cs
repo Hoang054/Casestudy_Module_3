@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace RPShop.Models.Entities
 {
-    public class Employees
+    public class supplier
     {
-        public int idE { get; set; }
+        public int id { get; set; }
         [Required]
-        public string FullName { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public string Name { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
         [Required]
-        public string Department { get; set; }
-        public string AvatarPath { get; set; }
+        public string Email { get; set; }
+        public string Business_code { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

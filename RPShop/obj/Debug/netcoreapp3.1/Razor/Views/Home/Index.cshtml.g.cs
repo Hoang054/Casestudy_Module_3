@@ -26,8 +26,15 @@ using RPShop.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "D:\module3\Casestudy\RPShop\RPShop\Views\_ViewImports.cshtml"
+using RPShop.Models.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"99464617055fdb505bb0bb7fd91f9b14f7b0d030", @"/Views/Home/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fe855e6da54373aafe567f77d66924a24070fcc5", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8902be88fe48757c3dc34a263ae1ae4d9ac7c259", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

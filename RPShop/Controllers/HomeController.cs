@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RPShop.Models;
+using RPShop.Models.Entities;
+using RPShop.Models.ViewModels;
 
 namespace RPShop.Controllers
 {
@@ -33,8 +35,44 @@ namespace RPShop.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpGet]
         public IActionResult Create()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Create model)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = new Product()
+                {
+                    Detail = model.Detail,
+                    idSupplier = model.idSupplier,
+                    idType = model.idType,
+                    imagePath = model.imagePath,
+                    Price = model.Price,
+                    ProductName = model.ProductName,
+
+                };
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult CreatetypeProduct()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreatetypeProduct(createType model)
+        {
+            if (ModelState.IsValid)
+            {
+                var type = new typeProduct()
+                {
+                    Name = model.Name
+                };
+            }
             return View();
         }
     }

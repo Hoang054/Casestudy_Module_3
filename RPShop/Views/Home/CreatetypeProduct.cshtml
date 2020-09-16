@@ -1,0 +1,14 @@
+﻿@model createType;
+
+@{ ViewBag.Title = "Create Type Product & Service";}
+<form action="/" method="post">
+    <div>
+        <div>
+            <label asp-for="Name"></label>
+        </div>
+        <div>
+            <input asp-for="Name" class="form-control"/>
+        </div>
+    </div>
+    <a class="btn btn-outline-primary">Create</a>
+</form>

@@ -1,38 +1,59 @@
-﻿
+﻿@model Create;
 @{ ViewBag.Title = "Add Product";}
 
-<form>
+<form asp-controller="Home" asp-action="Create" method="post">
     <div class="row">
         <div>
-            <label>Product Name</label>
+            <label asp-for="ProductName"></label>
         </div>
         <div>
-            <input />
+            <input asp-for="ProductName" class="form-control" />
         </div>
     </div>
     <div class="row">
         <div>
-            <label>Price</label>
+            <label asp-for="Price"></label>
         </div>
         <div>
-            <input />
+            <input asp-for="Price" class="form-control" />
         </div>
     </div>
     <div class="row">
         <div>
-            <label>Picture</label>
+            <label asp-for="imagePath"></label>
         </div>
         <div class="custom-file">
-            <input class="custom-file-input" />
+            <input class="custom-file-input" asp-for="imagePath" />
             <label class="custom-file-label" for="customFile">choose file</label>
         </div>
     </div>
     <div class="row">
         <div>
-            <label>Detail</label>
+            <label asp-for="Detail"></label>
         </div>
         <div>
-            <input />
+            <input asp-for="Detail" class="form-control" />
         </div>
     </div>
+    <div>
+        <div>
+            <label asp-for="idType"></label>
+        </div>
+        <div>
+            <select>
+                <option>Phone</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="idSupplier"></label>
+        </div>
+        <div>
+            <select>
+                <option>Apple</option>
+            </select>
+        </div>
+    </div>
+    <a class="btn btn-outline-primary">Create</a>
 </form>

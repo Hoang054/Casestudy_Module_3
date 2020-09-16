@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RPShop.Models.Entities
+namespace RPShop.Models.ViewModels
 {
-    public class typeProduct
+    public class createType
     {
         public int id { get; set; }
         [Required]
