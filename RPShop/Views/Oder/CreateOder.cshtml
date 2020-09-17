@@ -1,0 +1,48 @@
+﻿@model RPShop.Models.ViewModels.CreateOder.OderView
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Oder";}
+
+<form asp-controller="Oder" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div style="overflow:auto; width:auto; height:100px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Amout</th>
+                    <th>Price</th>
+                    <th>Manipulation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in context.Products.ToList())
+                {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td></td>
+                    <td>@item.Price</td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.id)"><i class="fas fa-plus"></i></a>
+                </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="CustomerName"></label>
+        </div>
+        <div>
+            <input asp-for="CustomerName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="EmployeeName"></label>
+        </div>
+        <div>
+            <input asp-for="EmployeeName" class="form-control" />
+        </div>
+    </div>
+    <button class="btn btn-outline-primary">Create</button>
+</form>
+

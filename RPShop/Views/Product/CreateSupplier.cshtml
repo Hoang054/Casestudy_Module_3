@@ -1,0 +1,39 @@
+﻿@model CreateSupplier;
+
+@{ ViewBag.Title = "Create Supplier";}
+<form asp-controller="Product" asp-action="CreateSupplier" method="post">
+    <div>
+        <div>
+            <label asp-for="Name"></label>
+        </div>
+        <div>
+            <input asp-for="Name" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="Email"></label>
+        </div>
+        <div>
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="PhoneNumber"></label>
+        </div>
+        <div>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="Business_code"></label>
+        </div>
+        <div>
+            <input asp-for="Business_code" class="form-control" />
+        </div>
+    </div>
+
+    <button class="btn btn-outline-primary">Create</button>
+</form>

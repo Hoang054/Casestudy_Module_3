@@ -19,6 +19,156 @@ namespace RPShop.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("RPShop.Models.Entities.Customer", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("totalPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("RPShop.Models.Entities.Employees", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AvatarPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("RPShop.Models.Entities.Linventory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("idProduct")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("idsupplier")
+                        .HasColumnType("int");
+
+                    b.Property<double>("importPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("productid")
+                        .HasColumnType("int");
+
+                    b.Property<double>("total")
+                        .HasColumnType("float");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("productid");
+
+                    b.ToTable("Linventorys");
+                });
+
+            modelBuilder.Entity("RPShop.Models.Entities.Oder", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("OderDay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("customerid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("employeeid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idCus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idEmployee")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("customerid");
+
+                    b.HasIndex("employeeid");
+
+                    b.ToTable("Oders");
+                });
+
+            modelBuilder.Entity("RPShop.Models.Entities.OderDetail", b =>
+                {
+                    b.Property<int>("idOder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idProduct")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Discount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Surcharge")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("oderid")
+                        .HasColumnType("int");
+
+                    b.HasKey("idOder", "idProduct");
+
+                    b.HasIndex("idProduct");
+
+                    b.HasIndex("oderid");
+
+                    b.ToTable("OderDetails");
+                });
+
             modelBuilder.Entity("RPShop.Models.Entities.Product", b =>
                 {
                     b.Property<int>("id")
@@ -26,14 +176,18 @@ namespace RPShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Customerid")
+                        .HasColumnType("int");
+
                     b.Property<string>("Detail")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("ProductName")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("idSupplier")
                         .HasColumnType("int");
@@ -44,72 +198,49 @@ namespace RPShop.Migrations
                     b.Property<string>("imagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("supplierid")
-                        .HasColumnType("int");
-
                     b.HasKey("id");
 
-                    b.HasIndex("idType");
-
-                    b.HasIndex("supplierid");
+                    b.HasIndex("Customerid");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RPShop.Models.Entities.supplier", b =>
+            modelBuilder.Entity("RPShop.Models.Entities.Linventory", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Business_code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("suppliers");
+                    b.HasOne("RPShop.Models.Entities.Product", "product")
+                        .WithMany()
+                        .HasForeignKey("productid");
                 });
 
-            modelBuilder.Entity("RPShop.Models.Entities.typeProduct", b =>
+            modelBuilder.Entity("RPShop.Models.Entities.Oder", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasOne("RPShop.Models.Entities.Customer", "customer")
+                        .WithMany()
+                        .HasForeignKey("customerid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("RPShop.Models.Entities.Employees", "employee")
+                        .WithMany()
+                        .HasForeignKey("employeeid");
+                });
 
-                    b.HasKey("id");
+            modelBuilder.Entity("RPShop.Models.Entities.OderDetail", b =>
+                {
+                    b.HasOne("RPShop.Models.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("idProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.ToTable("typeProducts");
+                    b.HasOne("RPShop.Models.Entities.Oder", "oder")
+                        .WithMany()
+                        .HasForeignKey("oderid");
                 });
 
             modelBuilder.Entity("RPShop.Models.Entities.Product", b =>
                 {
-                    b.HasOne("RPShop.Models.Entities.typeProduct", "typeProduct")
+                    b.HasOne("RPShop.Models.Entities.Customer", null)
                         .WithMany("Products")
-                        .HasForeignKey("idType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RPShop.Models.Entities.supplier", "supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("supplierid");
+                        .HasForeignKey("Customerid");
                 });
 #pragma warning restore 612, 618
         }

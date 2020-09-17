@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace RPShop.Repository
 {
-    public interface ItypeProductRepository
+    public interface ITypeProductRepository : IRepository<TypeProduct>
     {
-        int CreateType(typeProduct type);
-        int DeleteType(int id);
-        int UpdateType(int id);
+
     }
 }

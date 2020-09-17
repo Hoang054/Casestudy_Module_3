@@ -8,12 +8,14 @@ namespace RPShop.Models.Entities
 {
     public class Oder
     {
-        [ForeignKey("OderDetail")]
-        public int idOder { get; set; }
+        public int id { get; set; }
         [ForeignKey("Customer")]
         public int idCus { get; set; }
+        [ForeignKey("Employees")]
+        public int idEmployee { get; set; }
+        public Employees employee { get; set; }
         public DateTime OderDay { get; set; }
-        public Oder oder { get; set; }
+        //public Oder oder { get; set; }
         public Customer customer { get; set; }
     }
 }

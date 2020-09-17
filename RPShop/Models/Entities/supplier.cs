@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RPShop.Models.Entities
 {
-    public class supplier
+    public class Supplier
     {
         public int id { get; set; }
         [Required]

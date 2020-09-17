@@ -8,7 +8,6 @@ namespace RPShop.Models.ViewModels
 {
     public class createType
     {
-        public int id { get; set; }
         [Required]
         public string Name { get; set; }
     }

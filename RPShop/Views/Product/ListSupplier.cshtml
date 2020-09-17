@@ -1,0 +1,41 @@
+﻿@model Supplier
+@inject RPDbcontext context;
+
+@{ ViewBag.Title = "List Supplier";}
+<h3>@ViewBag.Title</h3>
+<table class="table table-bordered table-hover mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name Supplier</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Business_code</th>
+            <th>manipulation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in context.Suppliers.ToList())
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Business_code</td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="Suppliers.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                    <a asp-controller="Product" asp-action="EditSupplier" asp-route-id="@item.id" class="text-danger"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script src="~/js/supplier.js"></script>
+}

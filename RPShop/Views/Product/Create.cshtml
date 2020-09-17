@@ -1,0 +1,66 @@
+﻿@model Create;
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Product";}
+
+<form asp-controller="Product" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div>
+            <label asp-for="ProductName"></label>
+        </div>
+        <div>
+            <input asp-for="ProductName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="Price"></label>
+        </div>
+        <div>
+            <input asp-for="Price" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="imagePath"></label>
+        </div>
+        <div class="custom-file">
+            <input class="custom-file-input" asp-for="imagePath"/>
+            <label class="custom-file-label" for="customFile">choose file</label>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="Detail"></label>
+        </div>
+        <div>
+            <input asp-for="Detail" class="form-control" />
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="idType"></label>
+        </div>
+        <div>
+            <select asp-for="idType">
+                @foreach(var item in context.TypeProducts.ToList())
+                {
+                    <option value="@item.id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="idSupplier"></label>
+        </div>
+        <div>
+            <select asp-for="idSupplier">
+                @foreach (var item in context.Suppliers.ToList())
+                {
+                    <option value="@item.id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary">Create</button>
+</form>

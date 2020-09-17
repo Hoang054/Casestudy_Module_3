@@ -7,7 +7,7 @@ namespace RPShop.Models.Entities
 {
     public class Customer
     {
-        public int idCus { get; set; }
+        public int id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RPShop.Models;
+using RPShop.Repository;
+using RPShop.Services;
 
 namespace RPShop
 {
@@ -26,6 +28,12 @@ namespace RPShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<ITypeProductRepository, TypeProductRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICustomerService, CustomerService>();
+
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddDbContext<RPDbcontext>(o => o.UseSqlServer(Configuration.GetConnectionString("RPDbConnection")));
         }
 

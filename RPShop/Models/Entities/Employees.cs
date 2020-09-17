@@ -8,7 +8,7 @@ namespace RPShop.Models.Entities
 {
     public class Employees
     {
-        public int idE { get; set; }
+        public int id { get; set; }
         [Required]
         public string FullName { get; set; }
         [Required]

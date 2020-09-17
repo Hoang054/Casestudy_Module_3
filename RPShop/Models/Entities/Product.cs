@@ -15,11 +15,11 @@ namespace RPShop.Models.Entities
         public double Price { get; set; }
         public string imagePath { get; set; }
         public string Detail { get; set; }
-        [ForeignKey("typeProduct")]
+        [ForeignKey("TypeProduct")]
         public int idType { get; set; }
-        [ForeignKey("supplier")]
+        [ForeignKey("Supplier")]
         public int idSupplier { get; set; }
-        public typeProduct typeProduct { get; set; }
-        public supplier supplier { get; set; }
+        public TypeProduct typeProduct { get; set; }
+        public Supplier supplier { get; set; }
     }
 }

@@ -7,36 +7,36 @@ using System.Threading.Tasks;
 
 namespace RPShop.Repository
 {
-    public class typeProductRepository : ItypeProductRepository
+    public class TypeProductRepository : ITypeProductRepository
     {
         private readonly RPDbcontext context;
 
-        public typeProductRepository(RPDbcontext context)
+        public TypeProductRepository(RPDbcontext context)
         {
             this.context = context;
         }
-        public int CreateType(typeProduct type)
+        public int Create(TypeProduct Type)
         {
-            context.typeProducts.Add(type);
+            context.TypeProducts.Add(Type);
             return context.SaveChanges();
         }
-        public typeProduct GetTypeProduct(int id)
+        public TypeProduct Get(int id)
         {
-            return context.typeProducts.FirstOrDefault(e => e.id == id);
+            return context.TypeProducts.FirstOrDefault(e => e.id == id);
         }
 
-        public int DeleteType(int id)
+        public int Delete(int id)
         {
-            var deltype = GetTypeProduct(id);
+            var deltype = Get(id);
             if(deltype != null)
             {
-                context.typeProducts.Remove(deltype);
+                context.TypeProducts.Remove(deltype);
                 return context.SaveChanges();
             }
             return -1;
         }
 
-        public int UpdateType(int id)
+        public int Update(TypeProduct model)
         {
             throw new NotImplementedException();
         }

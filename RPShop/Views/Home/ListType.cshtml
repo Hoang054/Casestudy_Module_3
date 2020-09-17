@@ -1,0 +1,65 @@
+﻿@model TypeProduct;
+@inject RPDbcontext context;
+@{
+    ViewBag.Title = "list Type";
+}
+<h3>@ViewBag.Title</h3>
+<table class="table table-bordered table-hover mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Types & Services</th>
+            <th>manipulation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in context.TypeProducts.ToList())
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.Name</td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+@section scripts{ 
+<script src="~/lib/bootbox.js/bootbox.js"></script>
+<script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+<script>
+    var typeProduct = typeProduct || {};
+
+    typeProduct.delete = function (id) {
+        bootbox.confirm({
+            title: "Cảnh báo",
+            message: "Bạn có muốn xóa nhân viên này không?",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Không'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Có'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: `/Home/Delete/${id}`,
+                        method: "GET",
+                        contentType: 'json',
+                        success: function (data) {
+                            if (data.deleType > 0) {
+                                window.location.href = "/Home/listType";
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+</script>
+}

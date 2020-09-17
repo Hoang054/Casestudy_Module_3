@@ -6,6 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200916120850_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916120850_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916121102_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916121102_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916121413_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916121413_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916121637_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916121637_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916121716_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916121716_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916121805_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916121805_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200916123555_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200916123555_CreateProductTable.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
@@ -13,6 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
 </Project>

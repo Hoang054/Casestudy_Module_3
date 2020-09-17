@@ -1,7 +1,7 @@
 ﻿@model createType;
 
 @{ ViewBag.Title = "Create Type Product & Service";}
-<form action="/" method="post">
+<form asp-controller="Home" asp-action="CreatetypeProduct" method="post">
     <div>
         <div>
             <label asp-for="Name"></label>
@@ -10,5 +10,5 @@
             <input asp-for="Name" class="form-control"/>
         </div>
     </div>
-    <a class="btn btn-outline-primary">Create</a>
+    <button class="btn btn-outline-primary">Create</button>
 </form>

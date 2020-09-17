@@ -13,11 +13,9 @@ namespace RPShop.Models.Entities
         public string idProduct { get; set; }
         public int amount { get; set; }
         public double Price { get; set; }
-        public decimal discount { get; set; }
-        public double surcharge { get; set; }
-        public double total { get; set; }
+        public double total_revenue { get; set; }
+        public double total_profit { get; set; }
         public ICollection<Employees> employee { get; set; }
         public Product product { get; set; }
-
     }
 }

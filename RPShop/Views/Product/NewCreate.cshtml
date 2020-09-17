@@ -1,0 +1,59 @@
+﻿@model RPShop.Models.ViewModels.CreateProduct.Create
+
+@{
+    ViewData["Title"] = "NewCreate";
+}
+
+<h1>NewCreate</h1>
+
+<h4>Create</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="NewCreate">
+            <div asp-validation-summary="ModelOnly" class="text-danger" enctype="application/x-www-form-urlencoded"></div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Detail" class="control-label"></label>
+                <input asp-for="Detail" class="form-control" />
+                <span asp-validation-for="Detail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idType" class="control-label"></label>
+                <input asp-for="idType" class="form-control" />
+                <span asp-validation-for="idType" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="imagePath" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="imagePath" class="custom-file-input" id="customFile" type="file">
+                        <label class="custom-file-label" for="customFile"></label>
+                    </div>
+                    <span asp-validation-for="imagePath" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

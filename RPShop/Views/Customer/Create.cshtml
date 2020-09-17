@@ -1,0 +1,38 @@
+﻿@model RPShop.Models.ViewModels.CreateCustomer.CustomerView;
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Product";}
+
+<form asp-controller="Customer" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div>
+            <label asp-for="FullName"></label>
+        </div>
+        <div>
+            <input asp-for="FullName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="Email"></label>
+        </div>
+        <div>
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="PhoneNumber"></label>
+        </div>
+        <div>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+    </div><div class="row">
+        <div>
+            <label asp-for="Address"></label>
+        </div>
+        <div>
+            <input asp-for="Address" class="form-control" />
+        </div>
+    <button class="btn btn-outline-primary">Create</button>
+</form>
+

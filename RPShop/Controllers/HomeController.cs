@@ -8,16 +8,22 @@ using Microsoft.Extensions.Logging;
 using RPShop.Models;
 using RPShop.Models.Entities;
 using RPShop.Models.ViewModels;
+using RPShop.Repository;
 
 namespace RPShop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITypeProductRepository iTypeProductRepository;
+        private readonly RPDbcontext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITypeProductRepository iTypeProductRepository,
+                                RPDbcontext context)
         {
             _logger = logger;
+            this.iTypeProductRepository = iTypeProductRepository;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -36,29 +42,6 @@ namespace RPShop.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Create model)
-        {
-            if (ModelState.IsValid)
-            {
-                var product = new Product()
-                {
-                    Detail = model.Detail,
-                    idSupplier = model.idSupplier,
-                    idType = model.idType,
-                    imagePath = model.imagePath,
-                    Price = model.Price,
-                    ProductName = model.ProductName,
-
-                };
-            }
-            return View();
-        }
-        [HttpGet]
         public IActionResult CreatetypeProduct()
         {
             return View();
@@ -68,11 +51,32 @@ namespace RPShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var type = new typeProduct()
+                var type = new TypeProduct()
                 {
                     Name = model.Name
                 };
+                var typeId = iTypeProductRepository.Create(type);
+                if(typeId > 0)
+                {
+                    return RedirectToAction("CreatetypeProduct", "Home");
+                }
+
+                ModelState.AddModelError("", "System error, please try again later!");
+
             }
+            var createType = new createType();
+            return View(createType);
+        }
+        [Route("/Home/Delete/{id}")]
+        public IActionResult DeleteToKhai(int id)
+        {
+            var deleType = iTypeProductRepository.Delete(id);
+            return Json(new { deleType });
+        }
+        public IActionResult listType()
+        {
+        //    var type = new List<typeProduct>();
+        //    type = context.typeProducts.ToList();
             return View();
         }
     }

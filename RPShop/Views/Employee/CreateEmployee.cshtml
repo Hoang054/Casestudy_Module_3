@@ -1,0 +1,50 @@
+﻿@model RPShop.Models.ViewModels.Employee.EmployeeAdd
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Employee";}
+
+<form asp-controller="Customer" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div>
+            <label asp-for="FullName"></label>
+        </div>
+        <div>
+            <input asp-for="FullName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="Email"></label>
+        </div>
+        <div>
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="PhoneNumber"></label>
+        </div>
+        <div>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+    </div><div class="row">
+        <div>
+            <label asp-for="Department"></label>
+        </div>
+        <div>
+            <select asp-for="Department">
+                <option value="value">text</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="AvatarPath"></label>
+        </div>
+        <div class="custom-file">
+            <input class="custom-file-input" asp-for="AvatarPath" />
+            <label class="custom-file-label" for="customFile">choose file</label>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary">Create</button>
+</form>
+
