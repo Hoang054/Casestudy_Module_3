@@ -2,7 +2,7 @@
 @inject RPDbcontext context;
 @{ ViewBag.Title = "Add Product";}
 
-<form asp-controller="Product" asp-action="Create" method="post" enctype="multipart/form-data">
+<form asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
     <div class="row">
         <div>
             <label asp-for="ProductName"></label>
@@ -38,10 +38,10 @@
     </div>
     <div>
         <div>
-            <label asp-for="idType"></label>
+            <label asp-for="typeProductid"></label>
         </div>
         <div>
-            <select asp-for="idType">
+            <select asp-for="typeProductid">
                 @foreach(var item in context.TypeProducts.ToList())
                 {
                     <option value="@item.id">@item.Name</option>
@@ -51,10 +51,10 @@
     </div>
     <div>
         <div>
-            <label asp-for="idSupplier"></label>
+            <label asp-for="supplierid"></label>
         </div>
         <div>
-            <select asp-for="idSupplier">
+            <select asp-for="supplierid">
                 @foreach (var item in context.Suppliers.ToList())
                 {
                     <option value="@item.id">@item.Name</option>

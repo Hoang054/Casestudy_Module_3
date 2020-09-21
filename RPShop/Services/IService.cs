@@ -11,5 +11,6 @@ namespace RPShop.Services
         int Delete(int id);
         int Update(T model);
         T Get(int id);
+
     }
 }

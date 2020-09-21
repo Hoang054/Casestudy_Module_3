@@ -1,0 +1,51 @@
+﻿@model RPShop.ViewModels.CreateInventory.Create_Inventory
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Linventory";}
+
+<form asp-controller="Inventory" asp-action="CreateInventory" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div>
+            <label asp-for="productid"></label>
+        </div>
+        <div>
+            <select asp-for="productid">
+                @foreach (var item in context.Products.ToList())
+                {
+                    <option value="@item.id">@item.ProductName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="supplierid"></label>
+        </div>
+        <div>
+            <select asp-for="supplierid">
+                @foreach (var item in context.Suppliers.ToList())
+                {
+                    <option value="@item.id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="Amount"></label>
+        </div>
+        <div>
+            <input asp-for="Amount" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <label asp-for="importPrice"></label>
+        </div>
+        <div>
+            <input asp-for="importPrice" class="form-control" />
+        </div>
+    </div>
+
+    <button class="btn btn-outline-primary">Create</button>
+</form>
+

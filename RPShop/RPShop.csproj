@@ -20,6 +20,18 @@
     <Compile Remove="Migrations\20200916121805_CreateProductTable.Designer.cs" />
     <Compile Remove="Migrations\20200916123555_CreateProductTable.cs" />
     <Compile Remove="Migrations\20200916123555_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200918115433_CreateOderTable.cs" />
+    <Compile Remove="Migrations\20200918115433_CreateOderTable.Designer.cs" />
+    <Compile Remove="Migrations\20200918122334_CreateTable.cs" />
+    <Compile Remove="Migrations\20200918122334_CreateTable.Designer.cs" />
+    <Compile Remove="Migrations\20200918122644_CreateTable.cs" />
+    <Compile Remove="Migrations\20200918122644_CreateTable.Designer.cs" />
+    <Compile Remove="Migrations\20200918123214_CreateProductTable.cs" />
+    <Compile Remove="Migrations\20200918123214_CreateProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20200918140026_CreateTable2.cs" />
+    <Compile Remove="Migrations\20200918140026_CreateTable2.Designer.cs" />
+    <Compile Remove="Migrations\20200918140127_CreateTable3.cs" />
+    <Compile Remove="Migrations\20200918140127_CreateTable3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

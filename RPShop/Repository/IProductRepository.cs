@@ -9,7 +9,7 @@ namespace RPShop.Repository
 {
     public interface IProductRepository
     {
-        int CreateProduct(Product product);
+        int CreateProduct(Create product);
         //IEnumerable<ListToKhai> GetToKhais();
         Product GetProduct(int id);
         int DeleteProduct(int id);

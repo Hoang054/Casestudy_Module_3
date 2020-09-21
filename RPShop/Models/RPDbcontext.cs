@@ -20,14 +20,20 @@ namespace RPShop.Models
         public DbSet<OderDetail> OderDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employees> Employees { get; set; }
-        public DbSet<Linventory> Linventorys { get; set; }
+        public DbSet<Inventory> Inventorys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<OderDetail>().HasKey(c => new { c.idOder, c.idProduct });
+            modelBuilder.Entity<OderDetail>().HasKey(c => new { c.oderid, c.productid });
+            //modelBuilder.Ignore<Customer>();
+            //modelBuilder.Ignore<Employees>();
+            //modelBuilder.Ignore<Oder>();
+            //modelBuilder.Ignore<Product>();
             //modelBuilder.Ignore<Supplier>();
             //modelBuilder.Ignore<TypeProduct>();
+            //modelBuilder.Ignore<OderDetail>();
+            //modelBuilder.Ignore<Inventory>();
         }
     }
 }

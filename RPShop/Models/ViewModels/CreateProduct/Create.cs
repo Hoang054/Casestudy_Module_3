@@ -15,11 +15,10 @@ namespace RPShop.Models.ViewModels.CreateProduct
         public string ProductName { get; set; }
         [Required(ErrorMessage = "must enter the Price")]
         public double Price { get; set; }
-        [Required(ErrorMessage = "must enter the path")]
         public IFormFile imagePath { get; set; }
         public string Detail { get; set; }
         [Required(ErrorMessage = "must enter the type")]
-        public int idType { get; set; }
-        public int idSupplier { get; set; }
+        public int typeProductid { get; set; }
+        public int supplierid { get; set; }
     }
 }

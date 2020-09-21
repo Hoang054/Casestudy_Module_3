@@ -32,8 +32,10 @@ namespace RPShop
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICustomerService, CustomerService>();
-
+            services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IOderService, OderService>();
+
             services.AddDbContext<RPDbcontext>(o => o.UseSqlServer(Configuration.GetConnectionString("RPDbConnection")));
         }
 

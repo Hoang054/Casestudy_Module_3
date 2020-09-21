@@ -16,14 +16,11 @@ namespace RPShop.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ITypeProductRepository iTypeProductRepository;
-        private readonly RPDbcontext context;
 
-        public HomeController(ILogger<HomeController> logger, ITypeProductRepository iTypeProductRepository,
-                                RPDbcontext context)
+        public HomeController(ILogger<HomeController> logger, ITypeProductRepository iTypeProductRepository)
         {
             _logger = logger;
             this.iTypeProductRepository = iTypeProductRepository;
-            this.context = context;
         }
 
         public IActionResult Index()

@@ -23,7 +23,7 @@ namespace RPShop.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateCustomer()
         {
             return View();
         }

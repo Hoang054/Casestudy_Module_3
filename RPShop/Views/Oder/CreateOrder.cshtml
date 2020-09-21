@@ -1,0 +1,42 @@
+﻿@model RPShop.Models.ViewModels.CreateOder.CreateOrder
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Order";}
+
+<form asp-controller="Oder" asp-action="CreateOrder" method="post">
+    <div>
+        <div>
+            <label asp-for="cutomerid"></label>
+        </div>
+        <div>
+            <select asp-for="cutomerid">
+                @foreach (var item in context.Customers.ToList())
+                {
+                    <option value="@item.id">@item.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="employeeid"></label>
+        </div>
+        <div>
+            <select asp-for="employeeid">
+                @foreach (var item in context.Employees.ToList())
+                {
+                    <option value="@item.id">@item.FullName</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div>
+        <div>
+            <label asp-for="OderDay"></label>
+        </div>
+        <div>
+            <input type="datetime" asp-for="OderDay" />
+        </div>
+    </div>
+    <button class="btn btn-outline-primary">Create</button>
+</form>
+

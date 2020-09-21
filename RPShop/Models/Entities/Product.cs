@@ -16,9 +16,9 @@ namespace RPShop.Models.Entities
         public string imagePath { get; set; }
         public string Detail { get; set; }
         [ForeignKey("TypeProduct")]
-        public int idType { get; set; }
+        public int typeProductid { get; set; }
         [ForeignKey("Supplier")]
-        public int idSupplier { get; set; }
+        public int supplierid { get; set; }
         public TypeProduct typeProduct { get; set; }
         public Supplier supplier { get; set; }
     }

@@ -15,14 +15,11 @@ namespace RPShop.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService employeeService;
-        private readonly RPDbcontext context;
         private readonly IWebHostEnvironment webHost;
 
-        public EmployeeController(IEmployeeService employeeService,
-                                    RPDbcontext context, IWebHostEnvironment webHost)
+        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment webHost)
         {
             this.employeeService = employeeService;
-            this.context = context;
             this.webHost = webHost;
         }
         public IActionResult Index()
@@ -30,7 +27,7 @@ namespace RPShop.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreateEmployee()
         {
             return View();
         }

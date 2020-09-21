@@ -46,38 +46,7 @@ namespace RPShop.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("RPShop.Models.Entities.Employees", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AvatarPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("RPShop.Models.Entities.Linventory", b =>
+            modelBuilder.Entity("RPShop.Models.Entities.Inventory", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -87,16 +56,13 @@ namespace RPShop.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("idProduct")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("idsupplier")
-                        .HasColumnType("int");
-
                     b.Property<double>("importPrice")
                         .HasColumnType("float");
 
-                    b.Property<int?>("productid")
+                    b.Property<int>("productid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("supplierid")
                         .HasColumnType("int");
 
                     b.Property<double>("total")
@@ -106,7 +72,7 @@ namespace RPShop.Migrations
 
                     b.HasIndex("productid");
 
-                    b.ToTable("Linventorys");
+                    b.ToTable("Inventorys");
                 });
 
             modelBuilder.Entity("RPShop.Models.Entities.Oder", b =>
@@ -122,51 +88,17 @@ namespace RPShop.Migrations
                     b.Property<int?>("customerid")
                         .HasColumnType("int");
 
-                    b.Property<int?>("employeeid")
+                    b.Property<int>("cutomer_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("idCus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idEmployee")
+                    b.Property<int>("employeeid")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("customerid");
 
-                    b.HasIndex("employeeid");
-
                     b.ToTable("Oders");
-                });
-
-            modelBuilder.Entity("RPShop.Models.Entities.OderDetail", b =>
-                {
-                    b.Property<int>("idOder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idProduct")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Surcharge")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("oderid")
-                        .HasColumnType("int");
-
-                    b.HasKey("idOder", "idProduct");
-
-                    b.HasIndex("idProduct");
-
-                    b.HasIndex("oderid");
-
-                    b.ToTable("OderDetails");
                 });
 
             modelBuilder.Entity("RPShop.Models.Entities.Product", b =>
@@ -189,14 +121,14 @@ namespace RPShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("idSupplier")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idType")
-                        .HasColumnType("int");
-
                     b.Property<string>("imagePath")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("supplierid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("typeProductid")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -205,11 +137,13 @@ namespace RPShop.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("RPShop.Models.Entities.Linventory", b =>
+            modelBuilder.Entity("RPShop.Models.Entities.Inventory", b =>
                 {
                     b.HasOne("RPShop.Models.Entities.Product", "product")
                         .WithMany()
-                        .HasForeignKey("productid");
+                        .HasForeignKey("productid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RPShop.Models.Entities.Oder", b =>
@@ -217,23 +151,6 @@ namespace RPShop.Migrations
                     b.HasOne("RPShop.Models.Entities.Customer", "customer")
                         .WithMany()
                         .HasForeignKey("customerid");
-
-                    b.HasOne("RPShop.Models.Entities.Employees", "employee")
-                        .WithMany()
-                        .HasForeignKey("employeeid");
-                });
-
-            modelBuilder.Entity("RPShop.Models.Entities.OderDetail", b =>
-                {
-                    b.HasOne("RPShop.Models.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("idProduct")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RPShop.Models.Entities.Oder", "oder")
-                        .WithMany()
-                        .HasForeignKey("oderid");
                 });
 
             modelBuilder.Entity("RPShop.Models.Entities.Product", b =>

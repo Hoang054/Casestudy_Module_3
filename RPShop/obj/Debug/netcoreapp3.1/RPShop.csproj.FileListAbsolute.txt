@@ -380,7 +380,6 @@ D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Home\list
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\CreateSupplier.cshtml.g.cs
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\ListSupplier.cshtml.g.cs
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\EditSupplier.cshtml.g.cs
-D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\Create.cshtml.g.cs
 D:\module3\Casestudy\RPShop\RPShop\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
 D:\module3\Casestudy\RPShop\RPShop\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
 D:\module3\Casestudy\RPShop\RPShop\bin\Debug\netcoreapp3.1\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -428,7 +427,12 @@ D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\RPShop.MvcApplication
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\RPShop.MvcApplicationPartsAssemblyInfo.cache
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\NewCreate.cshtml.g.cs
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\ListProduct.cshtml.g.cs
-D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Customer\Create.cshtml.g.cs
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Oder\CreateOder.cshtml.g.cs
-D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\RPShop.csprojAssemblyReference.cache
 D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Employee\CreateEmployee.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Inventory\CreateInventory.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Inventory\ListInventory.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Product\CreateProduct.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Customer\CreateCustomer.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\RPShop.csprojAssemblyReference.cache
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Oder\CreateOrder.cshtml.g.cs
+D:\module3\Casestudy\RPShop\RPShop\obj\Debug\netcoreapp3.1\Razor\Views\Oder\OrderPrint.cshtml.g.cs

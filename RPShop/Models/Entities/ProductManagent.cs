@@ -10,7 +10,7 @@ namespace RPShop.Models.Entities
     {
         public int id { get; set; }
         [ForeignKey("Product")]
-        public string idProduct { get; set; }
+        public string productid { get; set; }
         public int amount { get; set; }
         public double Price { get; set; }
         public double total_revenue { get; set; }

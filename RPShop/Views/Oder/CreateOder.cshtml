@@ -1,8 +1,7 @@
-﻿@model RPShop.Models.ViewModels.CreateOder.OderView
+﻿@model List<RPShop.Models.ViewModels.CreateOder.OderView>;
 @inject RPDbcontext context;
 @{ ViewBag.Title = "Add Oder";}
 
-<form asp-controller="Oder" asp-action="Create" method="post" enctype="multipart/form-data">
     <div style="overflow:auto; width:auto; height:100px;">
         <table>
             <thead>
@@ -14,35 +13,44 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in context.Products.ToList())
+                @foreach(var item in Model)
                 {
                 <tr>
                     <td>@item.ProductName</td>
-                    <td></td>
+                    <td>@item.Amount</td>
                     <td>@item.Price</td>
-                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.id)"><i class="fas fa-plus"></i></a>
+                    <td>
+                        <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete()"><i class="fas fa-plus"></i></a>
+                    </td>
                 </tr>
 
                 }
             </tbody>
         </table>
     </div>
+@*<form asp-controller="Oder" asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="row">
         <div>
-            <label asp-for="CustomerName"></label>
+            <label asp-for="Customer_id"></label>
         </div>
         <div>
-            <input asp-for="CustomerName" class="form-control" />
+            <select>
+                @foreach(var item in Model)
+                {
+
+                    <option value="@item.Customer_id">@item.Customer_id</option>
+                }
+            </select>
         </div>
     </div>
     <div class="row">
         <div>
-            <label asp-for="EmployeeName"></label>
+            <label asp-for="Employee_id"></label>
         </div>
         <div>
             <input asp-for="EmployeeName" class="form-control" />
         </div>
     </div>
     <button class="btn btn-outline-primary">Create</button>
-</form>
+</form>*@
 

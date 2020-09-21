@@ -1,0 +1,68 @@
+﻿@model RPShop.Models.ViewModels.CreateOder.OrderPrint
+@inject RPDbcontext context;
+@{
+    ViewBag.Title = "Add Order";
+}
+
+<h2>Add Order</h2>
+<div class="col-3">
+    <input type="date" id="date" class="form-control" />
+</div>
+<table class="table table-responsive" id="tbItems">
+    <thead>
+        <tr>
+            <th>
+                Items
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="MainRow">
+            <td>
+                <select class="productsItems" id="productsItems">
+                    @foreach (var item in context.Products.ToList())
+                    {
+                        <option value="@item.id">@item.ProductName</option>
+                    }
+                </select>
+                <span class="error text-danger"></span>
+            </td>
+            <td>
+                <input type="text" name="price" id="price" placeholder="Price" />
+                <span class="error text-danger"></span>
+            </td>
+            <td>
+                <input type="text" name="quantity" id="quantity" placeholder="Quantity" />
+                <span class="error text-danger"></span>
+            </td>
+            <td>
+                <input type="text" name="total" id="total" disabled="disabled" />
+            </td>
+            <td>
+                <button class="btn btn-success" id="add">
+                    <span class="fade fade"></span>
+                    Add
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h4>Oder</h4>
+<table class="table table-responsive" id="OrderItems"></table>
+
+<button class="btn btn-dark" id="submit">Add order</button>
+<span class="text-danger" id="orderMessage"></span>
+@section scripts
+{ 
+<script src="~/js/AddOrder.js"></script>
+}

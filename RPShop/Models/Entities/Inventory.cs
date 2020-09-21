@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace RPShop.Models.Entities
 {
-    public class Linventory
+    public class Inventory
     {
         public int id { get; set; }
         [ForeignKey("Product")]
-        public string idProduct { get; set; }
+        public int productid { get; set; } 
         public int Amount { get; set; }
         public double importPrice { get; set; }
         [ForeignKey("Supplier")]
-        public int idsupplier { get; set; }
+        public int supplierid { get; set; }
         public double total { get; set; }
         public Supplier supplier { get; set; }
         public Product product { get; set; }

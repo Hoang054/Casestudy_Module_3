@@ -16,8 +16,15 @@ namespace RPShop.Repository
         {
             this.context = context;
         }
-        public int CreateSupplier(Supplier supplier)
+        public int CreateSupplier(Supplier model)
         {
+            var supplier = new Supplier()
+            {
+                Email = model.Email,
+                Business_code = model.Business_code,
+                Name = model.Name,
+                PhoneNumber = model.PhoneNumber
+            };
             context.Suppliers.Add(supplier);
             return context.SaveChanges();
         }

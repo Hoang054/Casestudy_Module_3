@@ -1,0 +1,39 @@
+﻿@model List<RPShop.Models.ViewModels.CreateInventory.ListInventory>
+@inject RPDbcontext context
+
+@{
+    ViewBag.Title = "List Liventory";
+    var tam = context.Products.ToList();
+}
+
+<h3>@ViewBag.Title</h3>
+<table class="table table-bordered table-hover mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Supplier</th>
+            <th>Import Price</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.ProductName</td>
+                <td>@item.supplierName</td>
+                <td>@item.Amount</td>
+                <td>@item.importPrice</td>
+                <td>@item.total</td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
