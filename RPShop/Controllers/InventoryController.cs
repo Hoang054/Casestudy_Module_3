@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RPShop.Models.Entities;
 using RPShop.Models.ViewModels.CreateInventory;
@@ -10,6 +11,7 @@ using RPShop.ViewModels.CreateInventory;
 
 namespace RPShop.Controllers
 {
+    //[Authorize(Roles = "System Admin, Admin, Employee")]
     public class InventoryController : Controller
     {
         private readonly IInventoryService inventoryService;

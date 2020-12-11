@@ -1,0 +1,217 @@
+﻿@*@inject RPShop.Repository.ITypeProductRepository categoryRepository*@
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model HomeViewModel
+@{ Layout = "~/Views/Shared/Layout.cshtml";
+    var categoryname = ViewBag.CategoryName;
+    float Total = 0; }
+
+
+<div class="container single_product_container">
+    <div class="row">
+        <div class="col">
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.CartItems.Count > 0)
+                    {
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead class="thead-dark" style="text-align:center">
+                <tr>
+
+                    <td>Tên SP</td>
+                    <td>Ảnh SP</td>
+                    <td>Số lượng</td>
+                    <td>Đơn giá</td>
+                    <td>Thành tiền</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody style="text-align:center">
+                @{int i = 0;}
+                @foreach (var item in Model.CartItems)
+                {
+                <tr>
+
+                    <td>@item.Product.ProductName</td>
+                    <td><img src="~/images/@item.Product.ImagePath" width="100" /></td>
+                    <td>
+                        <span class="minus" onclick="minus(@item.ProductId,@i);"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                        <input class="quantity" type="number" min="1" id="inc" value="@item.Quantity" onchange="change(@item.ProductId, @i);" style="width:60px;text-align:center;border:none;font-size:20px">
+                        
+                        <span class="plus" onclick="plus(@item.ProductId,@i);"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                    </td>
+                    @{i++;
+                    }
+                    <td>@currency(item.Product.Price - item.Product.Price * item.Product.Discount / 100)</td>
+                    <td class="total">@currency((item.Product.Price - item.Product.Price * item.Product.Discount / 100) * item.Quantity)</td>
+                    @{ Total += (item.Product.Price - item.Product.Price * item.Product.Discount / 100) * item.Quantity; }
+                <td>
+                    <a asp-controller="Cart" asp-action="Delete" asp-route-id="@item.Product.Id" class="btn btn-danger">Xóa</a>
+                    @*<a class="btn btn-danger" data-toggle="modal" onclick="deleted(@item.Product.Id)">Xoá</a>
+        <div class="modal fade" id="@($"exampleModalLong{@item.Product.Id}")" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Xóa @item.Product.ProductName?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn chắc chứ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <a asp-controller="Cart" asp-action="Delete" asp-route-id="@item.Product.Id" class="btn btn-danger">Xóa</a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                </td>
+                </tr>
+}
+                <tr style="color:red">
+                    <td colspan="4"></td>
+                    <td>Tổng tiền:</td>
+                    <td id="Sumtotal">@currency(Total)
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+                        <div style="text-align:center;margin-top:20px">
+                            <a class="btn btn-primary" asp-controller="product" asp-action="list">Tiếp tục mua hàng</a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                Xóa giỏ hàng
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Xóa giỏ hàng?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Bạn muốn xóa toàn bộ mặt hàng trong giỏ hàng?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                            <a type="button" class="btn btn-danger" asp-controller="Cart" asp-action="DeleteAll">Xóa</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <a class="btn btn-success" asp-action="Payment">Thanh toán</a>
+                        </div> }
+                    else
+                    {
+        <span class="alert alert-danger">Chưa có sản phẩm nào trong giỏ hàng</span>
+                        <br><br><br>
+                        <a class="btn btn-danger" asp-controller="Product" asp-action="List">Tiếp tục mua hàng</a>}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+        @functions
+        {
+        public string currency(float money1)
+        {
+            var vietnam = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            string money2 = String.Format(vietnam, "{0:c}", money1);
+            int start = money2.Length - 1;
+            return money2.Replace(",00", "");
+        }
+    }
+    </script>
+    <script>
+        function plus(productId, index) {
+            var i = +document.getElementsByClassName("quantity")[index].value;
+            i++;
+            document.getElementsByClassName("quantity")[index].value = i;
+            var quantity = i;
+            $.ajax({
+                url: `/Cart/ChangeItem/${productId}/${quantity}`,
+                method: "GET",
+                contentType: 'json',
+                success: function (data) {
+                    var money1 = data[index].product.price * data[index].quantity;
+                    money1 = money1.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                    document.getElementsByClassName("total")[index].innerHTML = money1;
+
+                    //document.getElementById('Sumtotal').innerHTML = data[index].product.price * data[index].quantity;
+                    var totalCart = 0;
+                    var arrayTotal = document.getElementsByClassName("total");
+                    for (let i = 0; i < arrayTotal.length; i++) {
+                        totalCart += data[i].product.price * data[i].quantity;
+                    }
+                    totalCart = totalCart.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                    document.getElementById('Sumtotal').innerHTML = totalCart;
+                }
+            });
+        }
+        function minus(productId, index) {
+            var i = +document.getElementsByClassName("quantity")[index].value;
+            if (i >= 2) {
+                i--;
+                document.getElementsByClassName("quantity")[index].value = i;
+                var quantity = $("#inc").val();
+                $.ajax({
+                    url: `/Cart/ChangeItem/${productId}/${quantity}`,
+                    method: "GET",
+                    contentType: 'json',
+                    success: function (data) {
+                        var money1 = data[index].product.price * data[index].quantity;
+                        money1 = money1.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                        document.getElementsByClassName("total")[index].innerHTML = money1;
+
+                        //document.getElementById('Sumtotal').innerHTML = data[index].product.price * data[index].quantity;
+                        var totalCart = 0;
+                        var arrayTotal = document.getElementsByClassName("total");
+                        for (let i = 0; i < arrayTotal.length; i++) {
+                            totalCart += data[i].product.price * data[i].quantity;
+                        }
+                        totalCart = totalCart.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                        document.getElementById('Sumtotal').innerHTML = totalCart;
+                    }
+                });
+            }
+        }
+        function change(productId, index) {
+            var quantity = +document.getElementsByClassName("quantity")[index].value;
+                $.ajax({
+                    url: `/Cart/ChangeItem/${productId}/${quantity}`,
+                    method: "GET",
+                    contentType: 'json',
+                    success: function (data) {
+                        var money1 = data[index].product.price * data[index].quantity;
+                        money1 = money1.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                        document.getElementsByClassName("total")[index].innerHTML = money1;
+
+                        //document.getElementById('Sumtotal').innerHTML = data[index].product.price * data[index].quantity;
+                        var totalCart = 0;
+                        var arrayTotal = document.getElementsByClassName("total");
+                        for (let i = 0; i < arrayTotal.length; i++) {
+                            totalCart += data[i].product.price * data[i].quantity;
+                        }
+                        totalCart = totalCart.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+                        document.getElementById('Sumtotal').innerHTML = totalCart;
+                    }
+                });
+        }
+        function deleted(id) {
+            $(`exampleModalLong${id}`).modal("show");
+        }
+    </script>
+}

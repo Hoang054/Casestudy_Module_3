@@ -1,31 +1,123 @@
-﻿@model List<ListProduct>
-@inject RPDbcontext context
-
+﻿@model List<ListProduct>;
+@inject RPDbcontext context;
 @{
-    ViewBag.Title = "List Product";
-    var tam = context.Products.OrderByDescending(e => e.id).ToList();
+    ViewBag.Title = "list Product";
 }
+<h3>@ViewBag.Title</h3>
+<a asp-controller="Product" asp-action="CreateProduct" class="btn btn-primary">Create Product</a>
+<table class="table table-bordered table-hover mt-2" id="tbList">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ProductName</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Supplier</th>
+            <th>imagePath</th>
+            <th>Detail</th>
+            <th>manipulation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var avatarPath = $"/images/{(item.imagePath ?? "avatar1.jpg")}";
+            <tr>
+                <td>@item.id</td>
+                <td>@item.ProductName</td>
+                <td>@item.Price</td>
+                <td>@item.TypeName</td>
+                <td>@item.SupplierName</td>
+                <td>
+                    <img src=@avatarPath width="50" height="50" alt="Not found" class="mx-auto d-block myImage" asp-append-version="true" />
+                </td>
+                <td>@item.Detail</td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="Products.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                    <a onclick="EditProduct(@item.id)" class="text-danger"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
 
-<div class="row">
-    @foreach (var product in tam)
-    {
-        var avatarPath = $"/images/{(product.imagePath ?? "avatar1.jpg")}";
-        <div class="col-sm-3">
-            <div class="card">
-                <div class="card-header">
-                    <h3>FullName: @product.ProductName</h3>
+        }
+    </tbody>
+    <div class="modal fade" id="newOrderModal">
+        <div class="modal-dialog modal-lg" style=" width :900px !important;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Edit Product</h4>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
                 </div>
-                <img src=@avatarPath width="200" height="190" alt="Not found" class="mx-auto d-block myImage" asp-append-version="true" />
-                <div class="card-footer text-center">
-
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@product.id" class="btn btn-warning">Details</a>
-                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@product.id" class="btn btn-primary">Edit</a>
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@product.id" class="btn btn-danger">Delete</a>
-
+                <div id="myForm" method="post">
                 </div>
-
             </div>
         </div>
+    </div>
+</table>
 
-    }
-</div>
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        var Products = Products || {};
+
+        Products.delete = function (id) {
+            bootbox.confirm({
+                title: "Cảnh báo",
+                message: "Bạn có muốn xóa Product này không?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Không'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Có'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: `/Product/DeleteProduct/${id}`,
+                            method: "GET",
+                            contentType: 'json',
+                            success: function (data) {
+                                if (data.delProduct > 0) {
+                                    window.location.href = "/Product/listProduct";
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        var EditProduct = function (id) {
+            var url = "/Product/EditProduct?Id=" + id;
+            $("#myForm").load(url, function () {
+                $("#newOrderModal").modal("show");
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#tbList").dataTable();
+        });
+    </script>
+    <script src="~/lib/summernote/summernote-bs4.js"></script>
+    <link href="~/lib/summernote/summernote-bs4.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            $('#Description').summernote({
+                height: 100,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture', 'video']]
+                ]
+            });
+            document.getElementsByClassName('note-codable')[0].setAttribute("name", "Description");
+        });
+    </script>
+}

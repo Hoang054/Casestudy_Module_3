@@ -8,7 +8,7 @@ namespace RPShop.Models.Entities
 {
     public class ProductManagent
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [ForeignKey("Product")]
         public string productid { get; set; }
         public int amount { get; set; }

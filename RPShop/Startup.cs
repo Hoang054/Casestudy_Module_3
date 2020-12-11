@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +37,40 @@ namespace RPShop
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IOderService, OderService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<ICommentServices, CommentServices>();
+            services.AddTransient<ProductRepository>();
 
-            services.AddDbContext<RPDbcontext>(o => o.UseSqlServer(Configuration.GetConnectionString("RPDbConnection")));
+            services.AddDbContext<RPDbcontext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("RPDbConnection")));
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<RPDbcontext>();
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            //services.AddSession();
+            //services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddMvc(option =>
+            {
+                option.EnableEndpointRouting = false;
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                option.Filters.Add(new AuthorizeFilter(policy));
+            });
+            //services.AddSession(options =>
+            //{
+            //    //options.IdleTimeout = TimeSpan.FromSeconds(10);
+            //    options.Cookie.IsEssential = true;
+            //});
+            services.AddSession(cfg => {
+                cfg.Cookie.Name = "RPShop";
+                cfg.IdleTimeout = new TimeSpan(0, 60, 0);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +89,8 @@ namespace RPShop
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -63,7 +99,7 @@ namespace RPShop
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=List}/{id?}");
             });
         }
     }

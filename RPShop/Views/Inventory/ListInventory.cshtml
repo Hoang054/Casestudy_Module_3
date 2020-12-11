@@ -5,8 +5,8 @@
     ViewBag.Title = "List Liventory";
     var tam = context.Products.ToList();
 }
-
 <h3>@ViewBag.Title</h3>
+<a asp-controller="Inventory" asp-action="CreateInventory" class="btn btn-outline-primary">Create</a>
 <table class="table table-bordered table-hover mt-2">
     <thead>
         <tr>

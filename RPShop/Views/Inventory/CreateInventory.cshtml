@@ -4,45 +4,45 @@
 
 <form asp-controller="Inventory" asp-action="CreateInventory" method="post" enctype="multipart/form-data">
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="productid"></label>
         </div>
-        <div>
-            <select asp-for="productid">
+        <div class="col-7">
+            <select asp-for="productid" class="form-control">
                 @foreach (var item in context.Products.ToList())
                 {
-                    <option value="@item.id">@item.ProductName</option>
+                    <option value="@item.Id">@item.ProductName</option>
                 }
             </select>
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="supplierid"></label>
         </div>
-        <div>
-            <select asp-for="supplierid">
+        <div class="col-7">
+            <select asp-for="supplierid" class="form-control">
                 @foreach (var item in context.Suppliers.ToList())
                 {
-                    <option value="@item.id">@item.Name</option>
+                    <option value="@item.Id">@item.Name</option>
                 }
             </select>
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="Amount"></label>
         </div>
-        <div>
-            <input asp-for="Amount" class="form-control" />
+        <div class="col-7">
+            <input asp-for="Amount" class="form-control" class="form-control"/>
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="importPrice"></label>
         </div>
-        <div>
-            <input asp-for="importPrice" class="form-control" />
+        <div class="col-7">
+            <input asp-for="importPrice" class="form-control" class="form-control" />
         </div>
     </div>
 

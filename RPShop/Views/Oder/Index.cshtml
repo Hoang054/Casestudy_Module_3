@@ -1,0 +1,61 @@
+﻿@model IEnumerable<OrderOnline>
+@inject RPDbcontext context;
+@{ ViewBag.Title = "List Order";
+    double tam = 0;
+}
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Status</td>
+                <td>OrderId</td>
+                <td>User</td>
+                <td>Total</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th><input type="checkbox" checked="@item.Status" class="status" onclick="status(@item.Id)" /></th>
+                    <th>@item.Id</th>
+                    <th>@item.CustomerId</th>
+                    <th>
+                        @foreach (var it in context.OrderDetails.ToList())
+                        {
+                            if (it.OrderOnlineId == item.Id)
+                            {
+                                tam += it.UnitPrice;
+                            }
+                        }
+                        <span>@tam</span>
+                    </th>
+                    <th>
+                        <a asp-controller="Order" asp-action="Detail" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{ 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    var tt = document.getElementsByClassName('status');
+    
+    
+    function status(id) {
+        $.ajax({
+            url: `/Oder/ChangeStatus/${id}`,
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+
+            }
+        });
+    };
+</script>
+}

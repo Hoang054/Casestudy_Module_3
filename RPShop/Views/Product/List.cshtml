@@ -1,0 +1,210 @@
+﻿@model List<Product>;
+@inject RPDbcontext context;
+@inject RPShop.Repository.ProductRepository countproduct;
+@{
+    ViewData["Title"] = "List";
+    Layout = "Layout";
+
+    var tam = 0;
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+    p {
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 25px;
+        -webkit-line-clamp: 7;
+        height: 305px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        color: black;
+    }
+</style>
+<div style="margin-bottom:40px">
+
+    <div class="parallax row">
+        <div class="container mt-3">
+            <div class="container">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="~/images/11cbb779-8ee9-404d-a4cc-76a6c9b066fb_9-600x400.png" alt="Los Angeles" style="width:100%;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/images/3eb4e3ae-0736-4188-aaf3-d45607183823_14-600x400.png" alt="Chicago" style="width:100%;">
+                        </div>
+
+                        <div class="item">
+                            <img src="~/images/1687edca-5abf-4b46-b656-bd0c5a4cc3a7_galaxy-a11-canh-phai-600x400.png" alt="New york" style="width:100%;">
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="container" style="padding-top: 20px;">
+            <a href="#" class="btn btn-outline-danger">Tất cả</a>
+            <a asp-controller="Product" asp-action="List" asp-route-id="1" class='btn btn-outline-danger'>Bán chạy</a>
+            <a herf="" class='btn btn-outline-danger'>Siêu phẩm</a>
+            <a herf="" class='btn btn-outline-danger'>Siêu rẻ</a>
+            <a herf="" class='btn btn-outline-danger'>Siêu Pin</a>
+            <a herf="" class='btn btn-outline-danger'>Siêu Bên</a>
+            <a herf="" class='btn btn-outline-danger'>Mới</a>
+            <a herf="" class='btn btn-outline-danger'>Cũ</a>
+            <a herf="" class='btn btn-outline-danger'>Chính Hãng</a>
+        </div>
+
+        <div class="container">
+            <div style="background-color: burlywood; margin-top:20px;">
+                <h2>Product Hot</h2>
+            </div><br />
+            <div class="row">
+                @foreach (var item in countproduct.GetCount())
+                {
+                    if (tam < 5)
+                    {
+                        tam++;
+                        var avatarPath = $"/images/{(item.imagePath ?? "avatar1.jpg")}";
+                        <div style="margin:1%; width:18%;">
+                            <div class="card">
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.id">
+                                    <div class="container1">
+                                        <img src=@avatarPath width="200" height="250" alt="Not found" class="image mx-auto d-block myImage" asp-append-version="true" />
+                                        <div class="overlay">
+                                            <div title="Nhiều lắm không gõ được đâu" class="text" style="font-size:medium">
+                                                <p>@item.Detail</p>
+                                            </div>
+                                        </div>
+                                        <div class="card-header">
+                                            <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@item.ProductName</h4>
+                                        </div>
+                                        <div style="text-align:center">
+                                            @if (item.Discount != 0)
+                                            {
+                                                var tam1 = item.Price - item.Price * item.Discount;
+                                                <h4><strike>$: @item.Price</strike></h4>
+                                                <h4>$: @tam1</h4>
+                                            }
+                                            else
+                                            {
+                                                <br />
+                                                <h4>$: @item.Price</h4>
+                                            }
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            </div>
+            @foreach (var item in context.TypeProducts.ToList())
+            {
+                tam = 0;
+                <div style="background-color: burlywood; margin-top:20px;" class="row">
+                    <h3 style="margin: 10px;">@item.Name</h3>
+                    <h4 style="margin-left:92%; margin-top:-30px;"><a asp-controller="Product" asp-action="Listtype" asp-route-id="@item.Id">Show More</a></h4>
+                </div>
+                <br>
+                <div class="row">
+                    @foreach (var employee in Model)
+                    {
+                        if (employee.TypeProduct_id == item.Id && tam < 5)
+                        {
+                            tam++;
+                            var avatarPath = $"/images/{(employee.ImagePath ?? "avatar1.jpg")}";
+                    <div style="margin:1%; width:18%;">
+                        <div class="card">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@employee.Id">
+                                <div class="container1">
+                                    <img src=@avatarPath width="200" height="250" alt="Not found" class="image mx-auto d-block myImage" asp-append-version="true" />
+                                    <div class="overlay">
+                                        <div title="Nhiều lắm không gõ được đâu" class="text" style="font-size:medium">
+                                            <p>@employee.Detail</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <h4 style="width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@employee.ProductName</h4>
+                                    </div>
+                                    <div style="text-align:center">
+                                        @if (employee.Discount != 0)
+                                        {
+                                            var tam1 = employee.Price - employee.Price * employee.Discount;
+                                            <h4><strike>$: @employee.Price</strike></h4>
+                                            <h4>$: @tam1</h4>
+                                        }
+                                        else
+                                        {
+                                            <br /><h4>$: @employee.Price</h4>
+                                        }
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        </div>
+                        }
+                        }
+                    </div>
+            }
+        </div>
+    </div>
+</div>
+@*<div >
+        <div class="row" style="line-height:unset; margin-bottom:20px">
+            <div class="col-1"></div>
+            <div class="col-3">
+                <span>Giới thiệu công ty (DĐTM)</span><br>
+                <span>Hệ thống cửa hàng</span><br>
+                <span>Tuyển dụng</span>
+                <p>Chính sách bảo mật</p>
+            </div>
+            <div class="col-3">
+                <span>Chính sách bảo hành</span><br>
+                <span>Chính sách đổi trả sản phẩm</span><br>
+                <span>Hỏi Đáp Mua Hàng Online</span>
+                <p>Phương Thức Thanh Toán</p>
+            </div>
+            <div class="col-3">
+                <span>Gọi mua hàng miễn phí: 0855.100.001</span><br>
+                <span>Gọi bảo hành & khiếu nại: 1800.6502</span><br>
+                <p>Gọi hợp tác kinh doanh: 1900.6122</p>
+            </div>
+        </div>
+        <footer style="text-align: center; font-size: small; background-color:darkgray; line-height:30px;">
+            <span>
+                © 2020 - Công ty Cổ Phần viễn thông Di Động Thông Minh - 119 phố Thái Thịnh, phường Thịnh Quang, quận Đống
+                Đa, thành phố Hà Nội, Việt Nam<br>
+            </span>
+            <span>
+                MST:0105815899 (Số giấy chứng nhận đăng ký kinh doanh thương nhân) - Ngày cấp lần đầu:
+                12/03/2012
+            </span><br>
+            <span>Đăng ký thay đổi lần 2: 04/11/2013 - Nơi cấp: Sở kế hoạch và đầu tư thành phố Hà Nội</span>
+        </footer>
+
+    </div>*@
+

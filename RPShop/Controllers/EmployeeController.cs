@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using RPShop.Models;
-using RPShop.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using RPShop.Models.ViewModels.Employee;
 using RPShop.Services;
 
 namespace RPShop.Controllers
 {
+    //[Authorize(Roles = "System Admin, Admin")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService employeeService;
-        private readonly IWebHostEnvironment webHost;
 
-        public EmployeeController(IEmployeeService employeeService, IWebHostEnvironment webHost)
+        public EmployeeController(IEmployeeService employeeService)
         {
             this.employeeService = employeeService;
-            this.webHost = webHost;
         }
         public IActionResult Index()
         {
@@ -36,26 +27,8 @@ namespace RPShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = new Employees()
-                {
-                    FullName = model.FullName,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    Department = model.Department
-                };
-                string FileImage = null;
-                if (model.AvatarPath != null)
-                {
-                    string uploadsFolder = Path.Combine(webHost.WebRootPath, "images");
-                    FileImage = Guid.NewGuid().ToString() + "_" + model.AvatarPath.FileName;
-                    string filePath = Path.Combine(uploadsFolder, FileImage);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        model.AvatarPath.CopyTo(fileStream);
-                    }
-                }
-                employee.AvatarPath = FileImage;
-                var employeeId = employeeService.Create(employee);
+                
+                var employeeId = employeeService.Create(model);
                 if (employeeId > 0)
                 {
                     return RedirectToAction("CreateEmployee", "Employee");
@@ -64,6 +37,16 @@ namespace RPShop.Controllers
             }
             var create = new EmployeeAdd();
             return View(create);
+        }
+        [Route("/Employee/Delete/{id}")]
+        public IActionResult DeleteEmployee(int id)
+        {
+            var delEmployee = employeeService.Delete(id);
+            return Json(new { delEmployee });
+        }
+        public IActionResult listEmployees()
+        {
+            return View();
         }
     }
 }

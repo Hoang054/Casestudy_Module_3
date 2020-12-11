@@ -1,38 +1,112 @@
 ﻿@model EditSupplier;
-
+@{
+    Layout = null;
+}
 @{ ViewBag.Title = "Edit Supplier";}
-<form asp-controller="Product" asp-action="EditSupplier" method="post">
-    <div>
-        <div>
-            <label asp-for="Name"></label>
+
+<div>
+    <form id="myForm1">
+        @Html.HiddenFor(m => m.id)
+
+        <div class="form-group">
+            <div>
+                <label asp-for="Name"></label>
+            </div>
+            <div>
+                <input asp-for="Name" id="Name" class="form-control" />
+                <span class="error text-danger"></span>
+            </div>
         </div>
-        <div>
-            <input asp-for="Name" class="form-control" />
+        <div class="form-group">
+            <div>
+                <label asp-for="Email"></label>
+            </div>
+            <div>
+                <input asp-for="Email" id="Email" class="form-control" />
+                <span class="error text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div>
-        <div>
-            <label asp-for="Email"></label>
+        <div class="form-group">
+            <div>
+                <label asp-for="PhoneNumber"></label>
+            </div>
+            <div>
+                <input asp-for="PhoneNumber" id="PhoneNumber" class="form-control" />
+                <span class="error text-danger"></span>
+            </div>
         </div>
-        <div>
-            <input asp-for="Email" class="form-control" />
+        <div class="form-group">
+            <div>
+                <label asp-for="Business_code"></label>
+            </div>
+            <div>
+                <input asp-for="Business_code" id="Business_code" class="form-control" />
+                <span class="error text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div>
-        <div>
-            <label asp-for="PhoneNumber"></label>
+        <div style="">
+            <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+            <a href="#" id="saveSup" type="submit" class="btn btn-danger">Save Supplier</a>
         </div>
-        <div>
-            <input asp-for="PhoneNumber" class="form-control" />
-        </div>
-    </div>
-    <div>
-        <div>
-            <label asp-for="Business_code"></label>
-        </div>
-        <div>
-            <input asp-for="Business_code" class="form-control" />
-        </div>
-    </div>
-    <button class="btn btn-outline-primary">Create</button>
-</form>
+    </form>
+    @*<div style="text-align:center; display:none" id="loaderDiv1">
+        <img src="~/images/0e9b9ada-cba8-43ff-82ce-d3dabc912d04_avatar1.jpg" />
+    </div>*@
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#saveSup").click(function () {
+            var isValid = true;
+            if (document.getElementById("Name").value == "") {
+                
+                $('#Name').siblings('span.error').text('Please enter Name');
+                isValid = false;
+            }
+            else {
+                $('#Name').siblings('span.error').text('');
+            }
+
+            if (document.getElementById("Email").value == "") {
+                $('#Email').siblings('span.error').text('Please enter email');
+                isValid = false;
+            }
+            else {
+                $('#Email').siblings('span.error').text('');
+            }
+            if (document.getElementById("PhoneNumber").value == "") {
+                $('#PhoneNumber').siblings('span.error').text('Please enter PhoneNumber');
+                isValid = false;
+            }
+            else {
+                $('#PhoneNumber').siblings('span.error').text('');
+            }
+            if (document.getElementById("Business_code").value == "") {
+                $('#Business_code').siblings('span.error').text('Please enter B_code');
+                isValid = false;
+            }
+            else {
+                $('#Business_code').siblings('span.error').text('');
+            }
+            if (isValid) {
+                //$("#loaderDiv1").show();
+                var myformdata = $("#myForm1").serialize();
+                console.log(myformdata);
+                $.ajax({
+                    type: "POST",
+                    url: "/Product/EditSupplier",
+                    data: myformdata,
+                    //contentType: 'application/json',
+                    success: function () {
+                        alert("Update complete");
+                        //$("#loaderDiv1").hie();
+                        $('#newOrderModal').modal('hide');
+                        window.location.href = "/Product/ListSupplier";
+
+                    }
+                });
+            }
+        });
+    });
+</script>

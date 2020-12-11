@@ -2,37 +2,61 @@
 @inject RPDbcontext context;
 @{ ViewBag.Title = "Add Product";}
 
-<form asp-controller="Customer" asp-action="CreateCustomer" method="post" enctype="multipart/form-data">
+<form id="customerForm">
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="FullName"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="FullName" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="Email"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="Email" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="PhoneNumber"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="PhoneNumber" class="form-control" />
         </div>
-    </div><div class="row">
-        <div>
+    </div>
+    <div class="row">
+        <div class="col-2">
             <label asp-for="Address"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="Address" class="form-control" />
         </div>
-    <button class="btn btn-outline-primary">Create</button>
+    </div>
+    <a href="#" id="submitButton" class="btn btn-outline-success">Create</a>
 </form>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#submitButton").on("click", function () {
+            var myformdata = $("#customerForm").serialize();
+            console.log(myformdata);
+            $.ajax({
+                type: "POST",
+                url: "/Customer/CreateCustomer",
+                data: myformdata,
+                success: function () {
+                    alert("Create Success");
+                    window.location.href = "/Customer/ListCustomers";
+
+                }
+            });
+        });
+
+    });
+</script>
 

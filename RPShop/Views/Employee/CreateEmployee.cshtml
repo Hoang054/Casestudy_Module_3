@@ -2,49 +2,100 @@
 @inject RPDbcontext context;
 @{ ViewBag.Title = "Add Employee";}
 
-<form asp-controller="Employee" asp-action="CreateEmployee" method="post" enctype="multipart/form-data">
+<form id="CreateEmployee" method="post" enctype="multipart/form-data">
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="FullName"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="FullName" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="Email"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="Email" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="PhoneNumber"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="PhoneNumber" class="form-control" />
         </div>
-    </div><div class="row">
-        <div>
+    </div>
+    <div class="row">
+        <div class="col-2">
             <label asp-for="Department"></label>
         </div>
-        <div>
+        <div class="col-9">
             <select asp-for="Department">
                 <option value="value">text</option>
             </select>
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="AvatarPath"></label>
         </div>
         <div class="custom-file">
-            <input class="custom-file-input" asp-for="AvatarPath" />
+            <input type="file" class="custom-file-input" onchange="readURL(this);" asp-for="AvatarPath" />
             <label class="custom-file-label" for="customFile">choose file</label>
         </div>
     </div>
-    <button class="btn btn-outline-primary">Create</button>
+    <div>
+        <img id="blah" src="http://placehold.it/180" alt="Not Found" />
+    </div>
+    <div style="margin-bottom:50px;"><a herf="#" id="submitButton" class="btn btn-outline-primary">Create</a></div>
 </form>
 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    $(document).ready(function () {
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#submitButton").on("click", function () {
+            var formdata = new FormData();
+            formdata.append('FullName', $('#FullName').val());
+            formdata.append('Email', $('#Email').val());
+            formdata.append('PhoneNumber', $('#PhoneNumber').val());
+            formdata.append('Department', $('#Department').val());
+            formdata.append('AvatarPath', $('#AvatarPath')[0].files[0]);
+            console.log(formdata);
+            $.ajax({
+                type: "POST",
+                url: "/Employee/CreateEmployee",
+                data: formdata,
+                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                processData: false, 
+                success: function () {
+                    alert("Create Success");
+                    window.location.href = "/Employee/ListEmployees";
+
+                }
+            });
+        });
+
+    });
+</script>

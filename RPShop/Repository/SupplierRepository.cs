@@ -40,9 +40,24 @@ namespace RPShop.Repository
             return -1;  
         }
 
+        public EditSupplier EditSupplier(int id)
+        {
+            var Supplier = GetSupplier(id);
+            var SupplierEdit = new EditSupplier();
+            if (Supplier != null)
+            {
+                SupplierEdit.id = Supplier.Id;
+                SupplierEdit.Email = Supplier.Email;
+                SupplierEdit.Business_code = Supplier.Business_code;
+                SupplierEdit.Name = Supplier.Name;
+                SupplierEdit.PhoneNumber = Supplier.PhoneNumber;
+            }
+            return SupplierEdit;
+        }
+
         public Supplier GetSupplier(int id)
         {
-            return context.Suppliers.FirstOrDefault(e => e.id == id);
+            return context.Suppliers.FirstOrDefault(e => e.Id == id);
         }
 
         public int UpdateSupplier(UpdateSupplier model)
@@ -51,12 +66,12 @@ namespace RPShop.Repository
             if(Supplier == null){
                 return -1;
             }
-            Supplier.id = model.id;
+            Supplier.Id = model.id;
             Supplier.Email = model.Email;
             Supplier.Name = model.Name;
             Supplier.PhoneNumber = model.PhoneNumber;
             Supplier.Business_code = model.Business_code;
-            context.Update(Supplier);
+            context.Suppliers.Update(Supplier);
             return context.SaveChanges();   
         }
     }

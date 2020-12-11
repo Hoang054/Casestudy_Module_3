@@ -1,0 +1,357 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextaccessor
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+@inject RoleManager<IdentityRole> roleManager
+@{ var user = await userManager.GetUserAsync(User);
+    var avatarPath= "/images/avatar1.jpg";
+    if (user != null)
+    {
+        avatarPath = $"/images/Avatar/{(user.ImagePath ?? "avatar1.png")}";
+    }
+    IList<string> roles = new List<string>();
+    if (user != null)
+    {
+        var userin = Task.Run(async () => await userManager.FindByIdAsync(user.Id)).Result;
+        roles = Task.Run(async () => await userManager.GetRolesAsync(userin)).Result;
+    }
+
+    var result = HttpContextaccessor.HttpContext.Session.GetObjectFromJson<List<CartItem>>("CartSession");
+    var count = (result == null ? 0 : result.Count);
+    string total = "";
+    if (result != null)
+    {
+        float Total = 0;
+        foreach (var item in result)
+        {
+            Total += (item.Product.Price - item.Product.Price * item.Product.Discount / 100) * item.Quantity;
+        }
+        total = currency(Total);
+    }
+@functions
+        { public string currency(float money1)
+    {
+        var vietnam = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+        string money2 = String.Format(vietnam, "{0:c}", money1);
+        int start = money2.Length - 1;
+        return money2.Replace(",00", "");
+    } } }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="~/images/icons/favicon.ico" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/vendor/animate/animate.css" rel="stylesheet" />
+    <link href="~/vendor/css-hamburgers/hamburgers.css" rel="stylesheet" />
+    <link href="~/vendor/animsition/css/animsition.css" rel="stylesheet" />
+    <link href="~/vendor/select2/select2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================-->
+    <link rel="stylesheet" href="~/css/util.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <style>
+        .overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: .5s ease;
+            background-color: white;
+        }
+
+        .container1:hover .overlay {
+            opacity: 0.71;
+        }
+
+        .text {
+            color: white;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .parallax {
+            background-image: url("/images/hoang1.jpg");
+            min-height: 500px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content div {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body id="page-top">
+    <div style="margin-bottom:40px">
+        <div class="container-fluid" style=" background-color: coral; position: sticky; top: 0; z-index:9;">
+            <div style="width: 94%;margin: 0 auto;">
+                <div style="padding: 4px; margin: 5px" class="row">
+                    <select class="form-control" style="width:10%; margin-right:5%;">
+                        <option value="">Hà Nội</option>
+                        <option value="">Hồ Chí Minh</option>
+                        <option value="">An Giang</option>
+                        <option value="">Đà Nẵng</option>
+                        <option value="">Huế</option>
+                    </select>
+
+                    <div style="width:11%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="1" title="Smartphone">
+                            <i class="fas fa-mobile-alt" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div  style="width:11%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="3" title="Tablet">
+                            <i class="fas fa-tablet-alt" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div style="width:11%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="2" title="SmartWatch">
+                            <i class="far fa-clock" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div style="width:11%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="4" title="accessories">
+                            <i class="fas fa-headphones" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div style="width:10%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="5" title="Sim Tag">
+                            <i class="fas fa-sim-card" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div style="width:10%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="6" title="Repair">
+                            <i class="fas fa-tools" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    <div style="width:10%">
+                        <a asp-controller="Product" asp-action="Listtype" asp-route-id="7" title="gift">
+                            <i class="fas fa-gift" style="font-size:xx-large;"></i>
+                        </a>
+                    </div>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+
+        <div class="dropdown" style="width:11%">
+            <div>
+                
+                <button type="submit" class="btn btn-link">
+                    <img class="img-profile rounded-circle" src=@avatarPath style="height: 35px;">
+                </button>
+            </div>
+            <div class="dropdown-content" style="height: 100px;">
+                <a asp-controller="Account" asp-action="Detail" asp-route-id="@user.Id">Tài khoản của tôi</a>
+                @if (user.UserName == "xuanhoang054@gmail.com" || user.UserName == "xuanhoang044@gmail.com")
+                {
+            <div><a asp-controller="Product" asp-action="ListProduct">Manager</a></div>
+                }
+                <form asp-controller="Account" asp-action="logout">
+                    <button>Đăng xuất</button>
+                </form>
+            </div>
+        </div> }
+    else
+    {
+<div style="width:10%">
+    <a target="_blank" asp-controller="Account" asp-action="Login" title="account">
+        <i class="fas fa-house-user" style="font-size:xx-large;"></i>
+    </a>
+</div>}
+
+                </div>
+                <div class="row">
+                    <div style="width:10%; text-align:center"><a asp-controller="Product" asp-action="list">LoGo</a></div>
+                    <div style="margin-left:20px; width:50%;">
+                        @using (Html.BeginForm("List", "Product", FormMethod.Get))
+                        {
+            <div class="row" style="width:100%;">
+                <div style="width:80%;"><input id="search" name="search" class="form-control" placeholder="Tìm kiếm tại đây" /></div>
+                <div><input type="submit" value="Search" class="form-control btn btn-outline-light" /></div>
+            </div>}
+                    </div>
+
+                    <nav>
+                        <div class="dropdown">
+                            <form asp-controller="Cart" asp-action="index">
+                                <button class="btn btn-outline-info dropbtn">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> <span class="badge badge-pill badge-danger">@count</span>
+                                </button>
+                            </form>
+                            @if (result != null && result.Count > 0)
+                            {
+                <div class="dropdown-content" style="height: 400px; overflow: scroll;">
+                    @foreach (var item in result)
+                    {
+    <div class="row" style="width:350px;">
+        <div class="col-lg-4 col-sm-4 col-4 cart-detail-img" style="height:10px; width:10px;">
+            <img src="~/images/@item.Product.ImagePath" style="height:100px; width:100px;">
+        </div>
+        <div class="col-lg-8 col-sm-8 col-8 cart-detail-product">
+            <p style="height:80px; padding-left:150px;">@item.Product.ProductName <a class="btn btn-danger" style="font-size:12px" asp-controller="Cart" asp-action="Delete" asp-route-id="@item.Product.Id">Xóa</a></p>
+            <span class="price text-info"> @currency((item.Product.Price - item.Product.Price * item.Product.Discount / 100) * @item.Quantity)</span> <span class="count"> Số lượng: @item.Quantity</span>
+        </div>
+    </div>}
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
+                            <a class="btn btn-danger" asp-controller="Cart" asp-action="Index">Kiểm tra giỏ hàng</a>
+                        </div>
+                    </div>
+                </div> }
+            else
+            {
+<div class="dropdown-content" style="height: 260px;">
+    <div class="text-danger" style="text-align:center;font-size:15px">
+        Giỏ hàng của bạn chưa có gì <i class="fas fa-sad-tear"></i><br>
+        <img src="~/images/empty.PNG" width="250px;" height="200px;" />
+        @*<a class="btn btn-danger" asp-controller="Cart" asp-action="Index">Cùng nhau mua sắm nào!!!</a>*@
+    </div>
+</div>}
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        @*<div style="margin-top:20px;"></div>*@
+
+        @RenderBody()
+    </div>
+    <div>
+        <footer style="line-height: unset; background-color:aliceblue">
+            <div class="row">
+                <div class="col-1" style="margin-right:50px;"></div>
+                <div class="col-3">
+                    <span>Giới thiệu công ty (DĐTM)</span><br>
+                    <span>Hệ thống cửa hàng</span><br>
+                    <span>Tuyển dụng</span>
+                    <span>Chính sách bảo mật</span>
+                </div>
+                <div class="col-3">
+                    <span>Chính sách bảo hành</span><br>
+                    <span>Chính sách đổi trả sản phẩm</span><br>
+                    <span>Hỏi Đáp Mua Hàng Online</span>
+                    <span>Phương Thức Thanh Toán</span>
+                </div>
+                <div class="col-3">
+                    <span>Gọi mua hàng miễn phí: 0855.100.001</span><br>
+                    <span>Gọi bảo hành & khiếu nại: 1800.6502</span><br>
+                    <span>Gọi hợp tác kinh doanh: 1900.6122</span>
+                </div>
+            </div>
+            <div style="background-color: darkgray; text-align: center; font-size: small;line-height:30px;">
+                <span>
+                    © 2020 - Công ty Cổ Phần viễn thông Di Động Thông Minh - 119 phố Thái Thịnh, phường Thịnh Quang, quận Đống
+                    Đa, thành phố Hà Nội, Việt Nam<br>
+                </span>
+                <span>
+                    MST:0105815899 (Số giấy chứng nhận đăng ký kinh doanh thương nhân) - Ngày cấp lần đầu:
+                    12/03/2012
+                </span><br>
+                <span>Đăng ký thay đổi lần 2: 04/11/2013 - Nơi cấp: Sở kế hoạch và đầu tư thành phố Hà Nội</span>
+            </div>
+        </footer>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/font-awesome/cjs/popper.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+    
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+
+        function xemthem() {
+            let e = document.getElementById('more').style.display;
+            if (e == "none") {
+                document.getElementById("more").style.display = "initial";
+                document.getElementById("them").innerHTML = "Thu Gọn"
+            } else {
+                document.getElementById("more").style.display = "none";
+                document.getElementById("them").innerHTML = "Xem Thêm"
+            }
+        }
+        function dangki() {
+            document.getElementById("dangki").value = "";
+        }
+        function tatde() {
+            document.getElementById('tatanh').style.display = "none";
+            document.getElementById('tat').style.display = "none";
+
+        }
+        function EnterFunction() {
+            document.getElementsByClassName("dropdown-menu").value = true;
+        }
+    </script>
+    <style>
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+    @RenderSection("Scripts", false);
+</body>
+</html>

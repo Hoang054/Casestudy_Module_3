@@ -15,5 +15,6 @@ namespace RPShop.Repository
         Supplier GetSupplier(int id);
         int DeleteSupplier(int id);
         int UpdateSupplier(UpdateSupplier model);
+        EditSupplier EditSupplier(int id);
     }
 }

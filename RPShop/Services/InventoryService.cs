@@ -20,11 +20,11 @@ namespace RPShop.Services
         {
             var inventory = new Inventory()
             {
-                productid = model.productid,
-                supplierid = model.supplierid,
-                importPrice = model.importPrice,
+                ProductId = model.ProductId,
+                Supplierid = model.Supplierid,
+                ImportPrice = model.ImportPrice,
                 Amount = model.Amount,
-                total = model.Amount * model.importPrice
+                Total = model.Amount * model.ImportPrice
             };
             context.Inventorys.Add(inventory);
             return context.SaveChanges();
@@ -44,16 +44,16 @@ namespace RPShop.Services
         {
             IEnumerable<ListInventory> listInventories = new List<ListInventory>();
             listInventories = (from i in context.Inventorys
-                               join p in context.Products on i.productid equals p.id
-                               join s in context.Suppliers on i.supplierid equals s.id
+                               join p in context.Products on i.ProductId equals p.Id
+                               join s in context.Suppliers on i.Supplierid equals s.Id
                                select (new ListInventory()
                                {
                                    Amount = i.Amount,
-                                   importPrice = i.importPrice,
-                                   id = i.id,
+                                   importPrice = i.ImportPrice,
+                                   id = i.Id,
                                    ProductName = p.ProductName,
                                    supplierName = s.Name,
-                                   total = i.importPrice * i.Amount
+                                   total = i.ImportPrice * i.Amount
                                }));
             return listInventories;
         }

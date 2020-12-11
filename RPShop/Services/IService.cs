@@ -7,7 +7,7 @@ namespace RPShop.Services
 {
     public interface IService<T>
     {
-        int Create(T t);
+        
         int Delete(int id);
         int Update(T model);
         T Get(int id);

@@ -9,17 +9,20 @@ namespace RPShop.Models.Entities
 {
     public class Product
     {
-        public int id { get; set; }
-        [Required]
+        public int Id { get; set; }
+        public int TypeProduct_id { get; set; }
+        public int Supplierid { get; set; }
         public string ProductName { get; set; }
-        public double Price { get; set; }
-        public string imagePath { get; set; }
+        public float Price { get; set; }
+        public string ImagePath { get; set; }
+        public List<Image> Images { get; set; }
         public string Detail { get; set; }
-        [ForeignKey("TypeProduct")]
-        public int typeProductid { get; set; }
-        [ForeignKey("Supplier")]
-        public int supplierid { get; set; }
-        public TypeProduct typeProduct { get; set; }
+
+        public TypeProduct TypeProduct { get; set; }
+
+        public float Discount { get; set; }
+        public string Description { get; set; }
+        public bool Status { get; set; }
         public Supplier supplier { get; set; }
     }
 }

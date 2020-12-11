@@ -1,0 +1,119 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<Product>;
+@inject RPDbcontext context;
+@inject RPShop.Repository.ProductRepository countproduct;
+
+@{
+    ViewData["Title"] = "List";
+    Layout = "Layout";
+
+}
+<style>
+    .pagination > li {
+        cursor: pointer;
+        border-radius: 2px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        min-width: 28px;
+        text-align: center;
+        list-style: none;
+        border: 1px solid #a8a8a8;
+        background-color: #fff;
+        font-family: Arial;
+        outline: 0;
+    }
+</style>
+<div class="parallax row">
+    <div class="container mt-3">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="~/images/iPhone-se-1.jpg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="~/images/slide-iPhone-XS-max-VNA.png" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="~/images/iPhone-se-1.jpg" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="container">
+        @foreach (var item in context.TypeProducts.ToList())
+        {
+            if (Model.Count > 0)
+            {
+                if (Model[0].TypeProduct_id == item.Id)
+                {
+                    <div style="background-color: burlywood; margin-top:20px;">
+                        <h2>@item.Name</h2>
+                    </div>
+                    <br>
+                }
+            }
+
+            <div class="row">
+                @foreach (var employee in Model)
+                {
+                    if (employee.TypeProduct_id == item.Id)
+                    {
+                        var avatarPath = $"/images/{(employee.ImagePath ?? "avatar1.jpg")}";
+                <div style="margin:1%; width:18%;">
+                    <div class="card">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@employee.Id">
+                            <div class="container1">
+                                <img src=@avatarPath width="100%" height="250" alt="Not found" class="image mx-auto d-block myImage" asp-append-version="true" />
+                                <div class="overlay">
+                                    <div title="Nhiều lắm không gõ được đâu" class="text" style="font-size:medium;width:100%; height:100% ;overflow: hidden; text-overflow: clip; word-break:break-all;">
+                                        <p>@employee.Detail</p>
+                                    </div>
+                                </div>
+                                <div class="card-header">
+                                    <h4 style="width: 100%; font-size:medium; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@employee.ProductName</h4>
+                                </div>
+                                <div style="text-align:center">
+                                    @if (employee.Discount != 0)
+                                    {
+                                        var tam1 = employee.Price - employee.Price * employee.Discount;
+                                        <h4><strike>$: @employee.Price</strike></h4>
+                                        <h4 style="color:orangered;">$: @tam1</h4>
+                                    }
+                                    else
+                                    {
+                                        <br /><h4 style="color:orangered;">$: @employee.Price</h4>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                    }
+                }
+            </div>
+            <div>
+                <p class=" text-success"> Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</p>
+                @Html.PagedListPager(Model, page => Url.Action($"Listtype", new { page }))
+            </div>
+        }
+    </div>
+</div>
+

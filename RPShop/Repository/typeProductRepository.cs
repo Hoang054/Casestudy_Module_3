@@ -22,7 +22,7 @@ namespace RPShop.Repository
         }
         public TypeProduct Get(int id)
         {
-            return context.TypeProducts.FirstOrDefault(e => e.id == id);
+            return context.TypeProducts.FirstOrDefault(e => e.Id == id);
         }
 
         public int Delete(int id)

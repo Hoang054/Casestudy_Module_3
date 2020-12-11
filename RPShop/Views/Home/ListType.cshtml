@@ -2,8 +2,19 @@
 @inject RPDbcontext context;
 @{
     ViewBag.Title = "list Type";
+    var count = 0;
 }
 <h3>@ViewBag.Title</h3>
+<a asp-controller="Home" asp-action="CreateTypeProduct" class="btn btn-outline-secondary">Create Type</a>
+@foreach (var item in context.TypeProducts.ToList())
+{
+    if (context.Products.Where(e => e.TypeProduct_id == item.Id).ToList().Count != 0)
+    {
+        count++;
+    }
+}
+<input hidden value="@count" id="count" />
+
 <table class="table table-bordered table-hover mt-2">
     <thead>
         <tr>
@@ -16,10 +27,10 @@
         @foreach (var item in context.TypeProducts.ToList())
         {
             <tr>
-                <td>@item.id</td>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>
-                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.Id)"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
 
@@ -27,39 +38,42 @@
 
     </tbody>
 </table>
-@section scripts{ 
-<script src="~/lib/bootbox.js/bootbox.js"></script>
-<script src="~/lib/datatables/js/jquery.dataTables.js"></script>
-<script>
-    var typeProduct = typeProduct || {};
-
-    typeProduct.delete = function (id) {
-        bootbox.confirm({
-            title: "Cảnh báo",
-            message: "Bạn có muốn xóa nhân viên này không?",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> Không'
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        var typeProduct = typeProduct || {};
+        var count = document.getElementById("count").value;
+        typeProduct.delete = function (id) {
+            bootbox.confirm({
+                title: "Cảnh báo",
+                message: "Bạn có muốn xóa nhân viên này không?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Không'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Có'
+                    }
                 },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> Có'
-                }
-            },
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        url: `/Home/Delete/${id}`,
-                        method: "GET",
-                        contentType: 'json',
-                        success: function (data) {
-                            if (data.deleType > 0) {
-                                window.location.href = "/Home/listType";
+                callback: function (result) {
+                    if (count == 0) {
+                        $.ajax({
+                            url: `/Home/Delete/${id}`,
+                            method: "GET",
+                            contentType: 'json',
+                            success: function (data) {
+                                if (data.deleType > 0) {
+                                    window.location.href = "/Home/listType";
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        bootbox.alert('Type Product has product! cannot delete');
+                    }
                 }
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 }

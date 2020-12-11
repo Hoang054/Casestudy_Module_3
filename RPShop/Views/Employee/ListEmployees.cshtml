@@ -1,0 +1,78 @@
+﻿@model Employees;
+@inject RPDbcontext context;
+@{
+    ViewBag.Title = "list Customer";
+}
+<h3>@ViewBag.Title</h3>
+<a asp-controller="Employee" asp-action="CreateEmployee" class="btn btn-primary">Create Customer</a>
+<table class="table table-bordered table-hover mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>FullName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Department</th>
+            <th>Avatar</th>
+            <th>manipulation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in context.Employees.ToList())
+        {
+            var avatarPath = $"/images/{(item.AvatarPath ?? "avatar1.jpg")}";
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Department</td>
+                <td>
+                    <img src=@avatarPath width="50" height="50" alt="Not found" class="mx-auto d-block myImage" asp-append-version="true" />
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="Employees.delete(@item.Id)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+        var Employees = Employees || {};
+
+        Employees.delete = function (id) {
+        bootbox.confirm({
+            title: "Cảnh báo",
+            message: "Bạn có muốn xóa nhân viên này không?",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Không'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Có'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: `/Employee/Delete/${id}`,
+                        method: "GET",
+                        contentType: 'json',
+                        success: function (data) {
+                            if (data.delEmployee > 0) {
+                                window.location.href = "/Employee/listEmployees";
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+    </script>
+}
+

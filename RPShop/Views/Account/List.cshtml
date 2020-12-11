@@ -1,0 +1,32 @@
+﻿@model List<User>
+@{ ViewBag.Title = "List User";}
+<div>
+    <table class="table table-bordered table-hover mt-2">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Roles</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Address</td>
+                <td>@item.RoleName</td>
+                <td><a asp-controller="Account" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+            </tr>
+            }
+            </tbody>
+        </table>
+</div>

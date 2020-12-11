@@ -9,6 +9,7 @@ namespace RPShop.Services
 {
     public interface IInventoryService : IService<Inventory>
     {
+        int Create(Inventory model);
         IEnumerable<ListInventory> Gets();
     }
 }

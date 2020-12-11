@@ -1,39 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RPShop.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RPShop.Models
 {
-    public class RPDbcontext : DbContext
+    public class RPDbcontext : IdentityDbContext<ApplicationUser>
     {
         public RPDbcontext(DbContextOptions<RPDbcontext> options) : base(options)
         {
 
         }
-        public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<TypeProduct> TypeProducts { get; set; }
-        public DbSet<Oder> Oders { get; set; }
-        public DbSet<OderDetail> OderDetails { get; set; }
+        public DbSet<OrderOnline> OrderOnlines { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Inventory> Inventorys { get; set; }
-
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Replay> Replays { get; set; }
+        public DbSet<Vote> Votes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<OderDetail>().HasKey(c => new { c.oderid, c.productid });
+            modelBuilder.Entity<OrderDetail>().HasKey(c => new { c.OrderOnlineId, c.ProductId });
             //modelBuilder.Ignore<Customer>();
             //modelBuilder.Ignore<Employees>();
-            //modelBuilder.Ignore<Oder>();
-            //modelBuilder.Ignore<Product>();
             //modelBuilder.Ignore<Supplier>();
             //modelBuilder.Ignore<TypeProduct>();
-            //modelBuilder.Ignore<OderDetail>();
+            //modelBuilder.Ignore<Product>();
+
+            //modelBuilder.Ignore<OrderOnline>();
+            //modelBuilder.Ignore<Image>();
             //modelBuilder.Ignore<Inventory>();
+
+            //modelBuilder.Ignore<OrderDetail>();
+
         }
     }
 }

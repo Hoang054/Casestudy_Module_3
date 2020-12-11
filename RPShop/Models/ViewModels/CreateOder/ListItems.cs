@@ -9,7 +9,7 @@ namespace RPShop.Models.ViewModels.CreateOder
     {
         public int productid { get; set; }
         public double Price { get; set; }
-        public int Quantiy { get; set; }
+        public int Quantity { get; set; }
         public double TotalPrice { get; set; }
     }
 }

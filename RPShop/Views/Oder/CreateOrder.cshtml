@@ -4,37 +4,37 @@
 
 <form asp-controller="Oder" asp-action="CreateOrder" method="post">
     <div>
-        <div>
-            <label asp-for="cutomerid"></label>
+        <div class="col-3">
+            <label asp-for="cutomerid" ></label>
         </div>
-        <div>
-            <select asp-for="cutomerid">
+        <div class="col-8">
+            <select asp-for="cutomerid" class="form-control">
                 @foreach (var item in context.Customers.ToList())
                 {
-                    <option value="@item.id">@item.FullName</option>
+                    <option value="@item.Id">@item.FullName</option>
                 }
             </select>
         </div>
     </div>
     <div>
-        <div>
+        <div class="col-3">
             <label asp-for="employeeid"></label>
         </div>
-        <div>
-            <select asp-for="employeeid">
+        <div class="col-8">
+            <select asp-for="employeeid" class="form-control">
                 @foreach (var item in context.Employees.ToList())
                 {
-                    <option value="@item.id">@item.FullName</option>
+                    <option value="@item.Id">@item.FullName</option>
                 }
             </select>
         </div>
     </div>
     <div>
-        <div>
+        <div class="col-3">
             <label asp-for="OderDay"></label>
         </div>
-        <div>
-            <input type="datetime" asp-for="OderDay" />
+        <div class="col-8">
+            <input type="date" asp-for="OderDay"  class="form-control"/>
         </div>
     </div>
     <button class="btn btn-outline-primary">Create</button>

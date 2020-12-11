@@ -1,8 +1,19 @@
 ﻿@model Supplier
 @inject RPDbcontext context;
 
-@{ ViewBag.Title = "List Supplier";}
+@{ ViewBag.Title = "List Supplier";
+    var count = 0;
+}
+@foreach (var item in context.Suppliers.ToList())
+{
+    if (context.Products.Where(e => e.Supplierid == item.Id).ToList().Count != 0)
+    {
+        count++;
+    }
+}
+<input hidden value="@count" id="count1" />
 <h3>@ViewBag.Title</h3>
+<a asp-controller="Product" asp-action="CreateSupplier" class="btn btn-outline-info">Create</a>
 <table class="table table-bordered table-hover mt-2">
     <thead>
         <tr>
@@ -18,14 +29,15 @@
         @foreach (var item in context.Suppliers.ToList())
         {
             <tr>
-                <td>@item.id</td>
+                <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.Email</td>
                 <td>@item.PhoneNumber</td>
                 <td>@item.Business_code</td>
                 <td>
-                    <a href="javascript:void(0)" class="text-danger" onclick="Suppliers.delete(@item.id)"><i class="fas fa-trash"></i></a>
-                    <a asp-controller="Product" asp-action="EditSupplier" asp-route-id="@item.id" class="text-danger"><i class="fas fa-edit"></i></a>
+                    <a href="javascript:void(0)" class="text-danger" onclick="Suppliers.delete(@item.Id)"><i class="fas fa-trash"></i></a>
+                    @*<a asp-controller="Product" asp-action="EditSupplier" asp-route-id="@item.id" class="text-danger"><i class="fas fa-edit"></i></a>*@
+                    <a onclick="EditSup(@item.Id)" class="text-danger"><i class="fas fa-edit"></i></a>
                 </td>
             </tr>
 
@@ -33,9 +45,69 @@
 
     </tbody>
 </table>
+<div class="modal fade" id="newOrderModal">
+    <div class="modal-dialog modal-lg" style=" width :900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Supplier</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div id="myForm" method="post">
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts{
     <script src="~/lib/bootbox.js/bootbox.js"></script>
     <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
-    <script src="~/js/supplier.js"></script>
+    <script>
+        var EditSup = function (id) {
+            //$("#newOrderModal").modal();
+            var url = "/Product/EditSupplier?Id=" + id;
+            $("#myForm").load(url, function () {
+                $("#newOrderModal").modal("show");
+            });
+        }
+        var Suppliers = Suppliers || {};
+        var count = document.getElementById("count1").value;
+
+        Suppliers.delete = function (id) {
+
+            bootbox.confirm({
+                title: "Cảnh báo",
+                message: "Bạn có muốn xóa Supplier này không?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Không'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Có'
+                    }
+                },
+                callback: function (result) {
+                    if (count == 0) {
+                        $.ajax({
+                            url: `/Product/Delete/${id}`,
+                            method: "GET",
+                            contentType: 'json',
+                            success: function (data) {
+                                if (data.deleSupplier > 0) {
+                                    console.log(count);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        bootbox.alert('Supplier has product! cannot delete');
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#tbList").dataTable();
+        });
+    </script>
 }

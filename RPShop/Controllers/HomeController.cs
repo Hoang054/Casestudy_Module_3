@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RPShop.Models;
 using RPShop.Models.Entities;
 using RPShop.Models.ViewModels;
 using RPShop.Repository;
+using System.Diagnostics;
 
 namespace RPShop.Controllers
 {
+    //[Authorize(Roles = "System Admin, Admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -55,7 +52,7 @@ namespace RPShop.Controllers
                 var typeId = iTypeProductRepository.Create(type);
                 if(typeId > 0)
                 {
-                    return RedirectToAction("CreatetypeProduct", "Home");
+                    return RedirectToAction("ListType", "Home");
                 }
 
                 ModelState.AddModelError("", "System error, please try again later!");

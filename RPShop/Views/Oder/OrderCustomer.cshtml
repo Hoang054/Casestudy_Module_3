@@ -1,0 +1,61 @@
+﻿@model List<RPShop.Models.ViewModels.CreateOder.OderView>;
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Order";
+    var t = context.OrderDetails.Max(e => e.OrderOnlineId);
+    var list = context.OrderDetails.Where(e => e.OrderOnlineId == t).ToList();
+    var modell = Model.Max(e => e.orderid);}
+
+<h2>Order</h2>
+<div>
+    <label>Order Id</label>
+    <span>@t</span>
+
+</div>
+<div>
+    <label>Customer Name</label>
+    <span>@Model.FirstOrDefault(e =>e.orderid == modell).CustomerName</span>
+</div>
+<div>
+    <label>Employee Name</label>
+    <span>@Model.FirstOrDefault(e => e.orderid == modell).EmployeeName</span>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        var tam = item.Price /item.Quantity;
+        <tbody>
+            <tr>
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @tam
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>

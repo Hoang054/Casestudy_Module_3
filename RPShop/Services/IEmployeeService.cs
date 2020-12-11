@@ -1,4 +1,5 @@
 ﻿using RPShop.Models.Entities;
+using RPShop.Models.ViewModels.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace RPShop.Services
 {
     public interface IEmployeeService
     {
-        int Create(Employees t);
+        int Create(EmployeeAdd t);
         int Delete(int id);
         int Update(Employees model);
         Employees Get(int id);

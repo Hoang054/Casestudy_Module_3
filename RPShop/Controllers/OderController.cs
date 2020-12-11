@@ -1,73 +1,69 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using RPShop.Models;
+using RPShop.Models.Entities;
+using RPShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using RPShop.Models;
-using RPShop.Models.ViewModels.CreateOder;
-using RPShop.Services;
 
 namespace RPShop.Controllers
 {
+    //[Authorize(Roles = "System Admin, Admin, Employee")]
     public class OderController : Controller
     {
-        private readonly IOderService oderService;
+        
+        private readonly RPDbcontext context;
+        private readonly IOrderRepository orderRepository;
+        private readonly IProductRepository productRepository;
 
-        public OderController(IOderService oderService)
+        public OderController(IOrderRepository orderRepository,
+                            IProductRepository productRepository,
+                            RPDbcontext context)
         {
-            this.oderService = oderService;
+            this.productRepository = productRepository;
+            this.orderRepository = orderRepository;
+            this.context = context;
         }
-        public IActionResult OrderPrint()
+        public IActionResult Index()
         {
-            return View();
-        }
-        [HttpPost]
-        [Route("/Oder/AddOrderAndOrderDetails")]
-        public IActionResult AddOrderAndOrderDetails(OrderPrint orderPrint)
-        {
-            if (ModelState.IsValid)
-            {
-                //var order = new OrderPrint()
-                //{
-                //    Date = new DateTime(),
-                //    Items = orderPrint
-                //};
-                var orderPrintId = oderService.CreateOrderDetail(orderPrint);
-                if (orderPrintId > 0)
-                {
-                    return RedirectToAction("OrderPrint", "Oder");
-                }
-                ModelState.AddModelError("", "System error, please try again later!");
-            }
-            var oderprint = new OrderPrint();
-            return View(orderPrint);
-        }
-        public IActionResult CreateOder()
-        {
-            var Orders = new List<OderView>();
-            Orders = oderService.GetOders().ToList();
-            return View(Orders);
-        }
-        [HttpGet]
-        public IActionResult CreateOrder()
-        {
-            return View();
+            return View(orderRepository.Gets());
         }
         [HttpPost]
-        public IActionResult CreateOrder(CreateOrder createOrder)
+        [Route("Oder/ChangeStatus/{id}")]
+        public JsonResult ChangeStatus(int id)
         {
-            if (ModelState.IsValid)
+            var result = orderRepository.ChangeStatus(id);
+            return Json(new { result });
+        }
+
+        [Route("/Order/Delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+
+            if (orderRepository.DeleteOrder(id))
             {
-                var orderId = oderService.CreateOrder(createOrder);
-                if(orderId > 0)
-                {
-                    return RedirectToAction("CreateOrder", "Oder");
-                }
-                ModelState.AddModelError("", "System error, please try again later!");
+                return RedirectToAction("Index", "Order");
             }
-            var CreateOrder = new CreateOrder();
-            return View(CreateOrder);
+            return View();
+        }
+        public IActionResult RecycleBin()
+        {
+            var Categories = orderRepository.Gets();
+            return View(Categories);
+        }
+        public IActionResult UndoDelete(int id)
+        {
+            if (orderRepository.UndoDelete(id) > 0)
+            {
+                return RedirectToAction("RecycleBin", "Order");
+            }
+            return View();
+
+        }
+        [Route("/Order/Detail/{id}")]
+        public IActionResult Detail(int id)
+        {
+            var order = orderRepository.GetOrder(id);
+            return View(order);
         }
     }
 }

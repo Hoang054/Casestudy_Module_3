@@ -8,15 +8,19 @@ namespace RPShop.Models.Entities
 {
     public class Inventory
     {
-        public int id { get; set; }
+        public int Id { get; set; }
+
         [ForeignKey("Product")]
-        public int productid { get; set; } 
+        public int ProductId { get; set; }
+
+        //[ForeignKey("Supplier")]
+        public int Supplierid { get; set; }
         public int Amount { get; set; }
-        public double importPrice { get; set; }
-        [ForeignKey("Supplier")]
-        public int supplierid { get; set; }
-        public double total { get; set; }
-        public Supplier supplier { get; set; }
+        public double ImportPrice { get; set; }
+
+
+        public double Total { get; set; }
+        //public Supplier supplier { get; set; }
         public Product product { get; set; }
     }
 }

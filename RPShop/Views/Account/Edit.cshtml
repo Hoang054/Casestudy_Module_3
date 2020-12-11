@@ -1,0 +1,67 @@
+﻿@model User
+@{ ViewBag.Title = "Edit role";
+    var roles = ViewBag.Roles as IQueryable<IdentityRole>;
+}
+
+<form asp-controller="Account" asp-action="Edit" method="post">
+    <input hidden asp-for="Id" />
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="UserName"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="UserName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="FullName"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="FullName" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="Address"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="Address" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="Email"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="PhoneNumber"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="PhoneNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="RoleId"></label>
+        </div>
+        <div class="col-3">
+            <select asp-for="RoleId" class="form-control">
+                <option value="">Select Role</option>
+                @if (roles != null && roles.Any())
+                {
+                    foreach (var role in roles)
+                    {
+                        <option value="@role.Id">@role.Name</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <button>Edit</button>
+</form>

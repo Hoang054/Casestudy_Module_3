@@ -2,65 +2,187 @@
 @inject RPDbcontext context;
 @{ ViewBag.Title = "Add Product";}
 
-<form asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+<form asp-controller="product" asp-action="createProduct" method="post" enctype="multipart/form-data">
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="ProductName"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="ProductName" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
+        <div class="col-2">
             <label asp-for="Price"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="Price" class="form-control" />
         </div>
     </div>
     <div class="row">
-        <div>
-            <label asp-for="imagePath"></label>
+        <div class="col-2">
+            <label asp-for="Discount"></label>
         </div>
-        <div class="custom-file">
-            <input class="custom-file-input" asp-for="imagePath"/>
-            <label class="custom-file-label" for="customFile">choose file</label>
+        <div class="col-9">
+            <input asp-for="Discount" class="form-control" />
         </div>
     </div>
     <div class="row">
+        <div class="col-2">
+            <label asp-for="ImagePath"></label>
+        </div>
+        <div class="custom-file col-9">
+            <input class="custom-file-input" asp-for="ImagePath" onchange="readURL(this);" type="file" />
+            <label class="custom-file-label" for="customFile">choose file</label>
+        </div>
+        <div class="col-2"></div>
         <div>
+            <img id="blah" style="width:200px;" src="http://placehold.it/180" alt="Not Found" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <label asp-for="Images"></label>
+        </div>
+        <input class="col" id="ImageFiles" name="ImageFiles" asp-for="Images" type="file" onchange="preview(this);" multiple="multiple" /><br />
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div id="previewImg" class="row"></div>
+    </div>
+    <div class="row">
+        <div class="col-2">
             <label asp-for="Detail"></label>
         </div>
-        <div>
+        <div class="col-9">
             <input asp-for="Detail" class="form-control" />
         </div>
     </div>
-    <div>
-        <div>
+    <div class="row">
+        <div class="col-2">
             <label asp-for="typeProductid"></label>
         </div>
-        <div>
-            <select asp-for="typeProductid">
-                @foreach(var item in context.TypeProducts.ToList())
+        <div class="col-9">
+            <select asp-for="typeProductid" class="form-control">
+                @foreach (var item in context.TypeProducts.ToList())
                 {
-                    <option value="@item.id">@item.Name</option>
+                    <option value="@item.Id">@item.Name</option>
                 }
             </select>
         </div>
     </div>
-    <div>
-        <div>
+    <div class="row">
+        <div class="col-2">
             <label asp-for="supplierid"></label>
         </div>
-        <div>
-            <select asp-for="supplierid">
+        <div class="col-9">
+            <select asp-for="supplierid" class="form-control">
                 @foreach (var item in context.Suppliers.ToList())
                 {
-                    <option value="@item.id">@item.Name</option>
+                    <option value="@item.Id">@item.Name</option>
                 }
             </select>
         </div>
     </div>
-    <button class="btn btn-outline-primary">Create</button>
+    <div class="form-group">
+        <div class="input-group-prepend" style="width:19.5%">
+            <label class="input-group-text" style=" width:100%" asp-for="Description"></label>
+        </div>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    
+    <button style="margin-bottom:50px;" href="#" class="btn btn-outline-primary">Create</button>
 </form>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
+
+    $(document).ready(function () {
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#submitButton").on("click", function () {
+            var formdata = new FormData();
+            formdata.append('ProductName', $('#ProductName').val());
+            formdata.append('Price', $('#Price').val());
+            formdata.append('Detail', $('#Detail').val());
+            formdata.append('typeProductid', $('#typeProductid').val());
+            formdata.append('supplierid', $('#supplierid').val());
+            formdata.append('imagePath', $('#imagePath')[0].files[0]);
+            console.log(formdata);
+            $.ajax({
+                type: "POST",
+                url: "/Product/CreateProduct",
+                data: formdata,
+                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                processData: false,
+                success: function () {
+                    alert("Create Success");
+                    //toastr.info('Create Success');
+                    window.location.href = "/Product/ListProduct";
+
+                }
+            });
+        });
+
+    });
+</script>
+<script>
+    window.preview = function (input) {
+        //if (input.files.length != 0) {
+        $('#previewImg').empty();
+        if (input.files && input.files[0]) {
+
+            $(input.files).each(function (i, value) {
+                var reader = new FileReader();
+                reader.readAsDataURL(this);
+                reader.onload = function (e) {
+                    if (e != null) {
+                        $("#previewImg").append("<div class='row' id='p" + i + "' style='margin:10px;'><img style='width: 100px' class='thumb'  src='" + e.target.result + "'><div><i class='fas fa-times-circle' onclick='xoa(" + i + ");'></i></div></div>");
+                    }
+                }
+            });
+        }
+
+        //}
+    }
+    function xoa(i) { $(`#p${i}`).remove(); }
+</script>
+@section Scripts {
+    <script src="~/lib/summernote/summernote-bs4.js"></script>
+    <link href="~/lib/summernote/summernote-bs4.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            $('#Description').summernote({
+                height: 100,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert', ['link', 'picture', 'video']]
+                ]
+            });
+            document.getElementsByClassName('note-codable')[0].setAttribute("name", "Description");
+        });
+    </script>
+}

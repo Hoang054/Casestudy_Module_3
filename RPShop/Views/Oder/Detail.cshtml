@@ -1,0 +1,83 @@
+﻿@inject RPDbcontext context
+@model OrderOnline
+@{
+    ViewBag.Title = "Order " + Model.CustomerId;
+    double subTotal = 0;
+}
+<h2 class="text-center text-primary">CHI TIẾT ĐƠN HÀNG</h2>
+<div class="row justify-content-center">
+    <div class="m-2">
+        <div class="card">
+            <div class="card-body">
+                <p><b>Tên khách hàng: </b> @Model.CustomerId</p>
+                <p><b>Số điện thoại: </b> @Model.ShipPhoneNumber</p>
+                <p>
+                    <b>Địa chỉ: </b>
+                    @Model.ShipAddress
+                </p>
+                <p>
+                    <b>Ngày tạo đơn: </b>
+                    @Model.CreatedDate
+                </p>
+                <p>
+                    <b>Trạng thái: </b>
+                    @Model.Status
+                </p>
+                <div>
+                    <table class="table table-bordered table-hover table-primary">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Giam Gia</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in context.OrderDetails.ToList())
+                            {
+                                var stt = 1;
+                                if (product.OrderOnlineId == Model.Id)
+                                {
+                                    var tam = @context.Products.FirstOrDefault(e => e.Id == product.ProductId).ImagePath;
+                                    double tinh = @product.UnitPrice / @product.Quantity + @product.UnitPrice / @product.Quantity * @product.Discount;
+                                    double tinh2 = @product.Discount * 100;
+                                    @subTotal += @product.UnitPrice;
+                                    <tr>
+                                        <td>@stt</td>
+                                        <td>
+                                            <div class="row m-1">
+                                                <img src="/images/@tam" style="width: 30px; height: 30px;" />
+                                                <b style="margin-left:10px;">@context.Products.FirstOrDefault(e => e.Id == product.ProductId).ProductName</b>
+                                            </div>
+                                        </td>
+                                        <td>@tinh</td>
+                                        <td>@tinh2 %</td>
+                                        <td>@product.Quantity</td>
+                                        <td>@product.UnitPrice</td>
+                                    </tr>
+                                    
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    <b>Tổng giá trị đơn hàng: </b>
+                    <b class="text-danger"> @subTotal.ToString("#,##0") ₫</b>
+                </p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Admin" asp-action="EditNormalOrder" asp-route-id="@Model.Id" class="btn btn-secondary">Sửa</a>
+                <a href="javascript:void(0)" onclick="orders.delete(@Model.Id)" class="btn btn-danger">Xóa</a>
+                <a asp-controller="Order" asp-action="Index" class="btn btn-success">Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/bootbox.js/bootbox.min.js"></script>
+    <script src="~/js/admin_order.js" asp-append-version="true"></script>
+}

@@ -47,8 +47,36 @@ using RPShop.Models.ViewModels.CreateProduct;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "D:\module3\Casestudy\RPShop\RPShop\Views\_ViewImports.cshtml"
+using RPShop.Models.ViewModels.Account;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "D:\module3\Casestudy\RPShop\RPShop\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "D:\module3\Casestudy\RPShop\RPShop\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Http.Extensions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "D:\module3\Casestudy\RPShop\RPShop\Views\_ViewImports.cshtml"
+using RPShop.Helpers;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d6a5625cc8fb4476f348b0fe9041c550465d8bf9", @"/Views/Shared/Error.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"00275137a0a94ff1917fd753e2e1b2680de77f96", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1a295dca963c7edd4f802b4d32a4fc180a094c2b", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ErrorViewModel>
     {
         #pragma warning disable 1998

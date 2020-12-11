@@ -1,0 +1,103 @@
+﻿@model RPShop.Models.ViewModels.CreateCustomer.CustomerView;
+
+@inject RPDbcontext context;
+@{ ViewBag.Title = "Add Product";
+    Layout = null;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/images/icons/favicon.ico" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/vendor/animate/animate.css" rel="stylesheet" />
+    <link href="~/vendor/css-hamburgers/hamburgers.css" rel="stylesheet" />
+    <link href="~/vendor/animsition/css/animsition.css" rel="stylesheet" />
+    <link href="~/vendor/select2/select2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================-->
+    <link rel="stylesheet" href="~/css/util.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+    <div>
+        <form id="cusForm">
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="FullName"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="FullName" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Email"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="PhoneNumber"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="PhoneNumber" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <label asp-for="Address"></label>
+                </div>
+                <div class="col-9">
+                    <input asp-for="Address" class="form-control" />
+                </div>
+            </div>
+            <a href="#" id="submitButton" class="btn btn-outline-success">Create</a>
+        </form>
+    </div>
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/select2/select2.min.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--=========~/======================================================================================-->
+    <script src="~/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#submitButton").on("click", function () {
+            var myformdata = $("#cusForm").serialize();
+            console.log(myformdata);
+            $.ajax({
+                type: "POST",
+                url: "/Customer/CreateCustomer",
+                data: myformdata,
+                success: function () {
+                    alert("Create Success, We will contact you as soon as possible");
+                    $('#orderMessage').text('Has Sent info');
+                    $("#newCustomerModal").modal("hide");
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
+
+

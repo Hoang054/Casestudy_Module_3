@@ -1,0 +1,99 @@
+﻿@model Customer;
+@inject RPDbcontext context;
+@{
+    ViewBag.Title = "list Customer";
+}
+<h3>@ViewBag.Title</h3>
+<a asp-controller="Customer" asp-action="CreateCustomer" class="btn btn-primary">Create Customer</a>
+<a asp-controller="Oder" asp-action="CreateOrder" class="btn btn-primary">Create Order</a>
+<table class="table table-bordered table-hover mt-2">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>FullName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Address</th>
+            <th>totalPrice</th>
+            <th>manipulation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in context.Customers.ToList())
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Address</td>
+                <td>@item.totalPrice</td>
+                <td>
+                    <a href="javascript:void(0)" class="text-danger" onclick="typeProduct.delete(@item.Id)"><i class="fas fa-trash"></i></a>
+                    <a onclick="EditCustomer(@item.Id)" class="text-danger"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+<div class="modal fade" id="newCustomerModal">
+    <div class="modal-dialog modal-lg" style=" width :900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Customer</h4>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <div id="myForm" method="post">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script>
+    var typeProduct = typeProduct || {};
+
+    typeProduct.delete = function (id) {
+        bootbox.confirm({
+            title: "Cảnh báo",
+            message: "Bạn có muốn xóa nhân viên này không?",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> Không'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> Có'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: `/Customer/Delete/${id}`,
+                        method: "GET",
+                        contentType: 'json',
+                        success: function (data) {
+                            if (data.delCustomer > 0) {
+                                window.location.href = "/Customer/listCustomers";
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+    </script>
+    <script>
+        var EditCustomer = function (id) {
+            var url = "/Customer/EditCustomer?Id=" + id;
+            $("#myForm").load(url, function () {
+                $("#newCustomerModal").modal("show");
+            });
+        }
+
+    </script>
+}
+

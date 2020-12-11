@@ -8,7 +8,7 @@ namespace RPShop.Models.Entities
 {
     public class TypeProduct
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
     }
