@@ -1,10 +1,10 @@
- # Quản lí RP Shop (sửa chữa mua bán điện thoại)
+ # Quản lí RP Shop (mua bán điện thoại)
 
 
 Người thực hiện: Trần Xuân Hoàng
 
 
-Mục đính : Dự án này nhầm để tạo ra một ứng dụng quản lý bán hàng dành cho các cá nhân, tổ chức kinh doanh đáp ứng nhu cầu mua bán lẻ trong thị trường thực tế.
+Mục đính : Dự án này nhầm để tạo ra một ứng dụng demo quản lý bán hàng dành cho các cá nhân, tổ chức kinh doanh đáp ứng nhu cầu mua bán lẻ trong thị trường thực tế.
 
 Các phần mềm phát triển trong project:
 
@@ -14,7 +14,6 @@ Các phần mềm phát triển trong project:
 
 ⌨ Các ngôn ngữ chính sử dụng trong dự án:
 
-HTML, CSS, Javascript, Ajax
-C#
+HTML, CSS, Javascript, Ajax, SQL server, C#
 
-Công Nghệ sử dụng : .Net Core, Entity Framework, Mô hình MVC
+Công Nghệ sử dụng : .Net Core, Entity Framework,Identity Framework, Mô hình MVC, bootstrap4, session, ajax...
