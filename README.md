@@ -14,6 +14,6 @@ Các phần mềm phát triển trong project:
 
 ⌨ Các ngôn ngữ chính sử dụng trong dự án:
 
-HTML, CSS, Javascript, Ajax, SQL server, C#
+HTML, CSS, Javascript, SQL server, C#
 
 Công Nghệ sử dụng : .Net Core, Entity Framework,Identity Framework, Mô hình MVC, bootstrap4, session, ajax...
